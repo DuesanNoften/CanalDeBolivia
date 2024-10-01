@@ -1,0 +1,3 @@
+/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia/cmake-build-debug/CMakeFiles/CanalDeBolivia.dir
+/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia/cmake-build-debug/CMakeFiles/rebuild_cache.dir

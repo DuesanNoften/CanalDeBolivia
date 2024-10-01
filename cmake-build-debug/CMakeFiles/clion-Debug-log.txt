@@ -1,0 +1,9 @@
+/app/extra/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/app/extra/clion/bin/ninja/linux/x64/ninja -G Ninja -S /home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia -B /home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia/cmake-build-debug
+-- Configuring done (0.0s)
+CMake Error: The following variables are used in this project, but they are set to NOTFOUND.
+Please set them or make sure they are set and tested correctly in the CMake files:
+COLLECTIONS_C_LIB
+    linked by target "CanalDeBolivia" in directory /home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia
+
+-- Generating done (0.0s)
+CMake Generate step failed.  Build files cannot be regenerated correctly.

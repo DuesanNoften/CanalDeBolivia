@@ -1,0 +1,69 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.29"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "CanalDeBolivia",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CanalDeBolivia::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CanalDeBolivia-Debug-d965709dbcf84dd70518.json",
+					"name" : "CanalDeBolivia",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Collections-C::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Collections-C-Debug-35ce4a5681d6de866050.json",
+					"name" : "Collections-C",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia/cmake-build-debug",
+		"source" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
