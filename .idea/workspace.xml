@@ -25,14 +25,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcb2842-f228-435b-811a-ca955d078018" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/CEthreads/CEmutex_destroy.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CEthreads/CEmutex_init.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CEthreads/CEmutex_unlock.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CEthreads/CEthread.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CEthreads/CEthread_create.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CEthreads/CEthread_end.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CEthreads/CEthread_join.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CEthreads/CEthread_create.c" beforeDir="false" afterPath="$PROJECT_DIR$/CEthreads/CEthread_create.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,28 +86,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "CMake Application.CanalDeBolivia.executor": "Run",
-    "CMake Debug.CanalDeBolivia.executor": "Debug",
-    "RunOnceActivity.RadMigrateCodeStyle": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "threads",
-    "last_opened_file_path": "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;CMake Application.CanalDeBolivia.executor&quot;: &quot;Run&quot;,
+    &quot;CMake Debug.CanalDeBolivia.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;threads&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="CMake Application.CanalDeBolivia">
     <configuration name="CanalDeBolivia" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CanalDeBolivia" TARGET_NAME="CanalDeBolivia" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CanalDeBolivia" RUN_TARGET_NAME="CanalDeBolivia">
       <method v="2">
@@ -139,7 +134,8 @@
       <updated>1727161304453</updated>
       <workItem from="1727161305548" duration="1229000" />
       <workItem from="1727162544792" duration="11738000" />
-      <workItem from="1727749719558" duration="2214000" />
+      <workItem from="1727749719558" duration="3032000" />
+      <workItem from="1727753060618" duration="723000" />
     </task>
     <servers />
   </component>
@@ -150,5 +146,9 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
