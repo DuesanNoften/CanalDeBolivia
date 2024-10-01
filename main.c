@@ -1,30 +1,35 @@
-// main.c
-
+#include "CEthreads/CEthread.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-#include "Canal/Factories/boatFactory.h"
-#include "Canal/Factories/canalFactory.h"
+int thread_function(void *arg) {
+    printf("Thread is running\n");
+    sleep(2000);
+    return 0;
+}
+
+int thread_function2(void *arg) {
+    printf("Thread2 is running\n");
+    return 0;
+}
 
 int main() {
-    printf("Testing Boats and Canals Initialization Only:\n");
+    CEthreads_t my_thread;
+    CEthreads_t my_thread2;
+    my_thread.start_routine = thread_function;
+    my_thread2.start_routine = thread_function2;
+    my_thread.arg = NULL;
+    my_thread2.arg = NULL;
+    my_thread.stack_size = 1024 * 1024;
+    my_thread2.stack_size = 1024 * 1024;// 1 MB stack
 
-    // Create an equity canal
-    Canal* equityCanal = createCanal(EQUITY_CANAL, 100, 5);
-    if (equityCanal != NULL) {
-        printf("Equity Canal Created - Type: %d, Size: %d\n", equityCanal->type, equityCanal->size);
+    if (CEthread_create(&my_thread) == -1 || CEthread_create(&my_thread2) == -1) {
+        printf("Failed to create thread\n");
+        return 1;
     }
 
-    // Destroy the existing canal
-    destroyCanal();
-
-    // Create a boat
-    Boat* normalBoat = createBoat(NORMAL_BOAT, 8, 1, 'N');
-    if (normalBoat != NULL) {
-        printf("Normal Boat Created - Speed: %d, Priority: %d, ID: %d, Direction: %c\n",
-               normalBoat->speed, normalBoat->priority, normalBoat->id, normalBoat->direction);
-        free(normalBoat);
-    }
-
+    sleep(1);// Give the thread time to run
+    free(my_thread.stack);
     return 0;
 }

@@ -1,31 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
-project(CanalDeBolivia)
 
-set(CMAKE_C_STANDARD 99)
+# Set the project name
+project(Proyecto_Canal_de_Bolivia)
 
-# Add the include directory
-include_directories(${PROJECT_SOURCE_DIR}/Canal/Factories)
-
-# Add the path to Collections-C headers
-include_directories(/usr/local/include)
-
-# Find and add the path to Collections-C library
-find_library(COLLECTIONS_C_LIB collections-c /usr/local/lib)
-
-# Specify source files
-set(SOURCE_FILES
+# Add the executable
+add_executable(Proyecto_Canal_de_Bolivia
+        CEmutex_destroy.c
+        CEmutex_init.c
+        CEmutex_unlock.c
+        CEthread_create.c
+        CEthread_end.c
+        CEthread_join.c
         main.c
-        CEthreads/CEmutex_destroy.c
-        CEthreads/CEmutex_init.c
-        CEthreads/CEmutex_unlock.c
-        CEthreads/CEthread_create.c
-        CEthreads/CEthread_end.c
-        CEthreads/CEthread_join.c
-        # Add additional source files here if necessary
 )
 
-# Add the executable target
-add_executable(CanalDeBolivia ${SOURCE_FILES})
+# Include directories
+target_include_directories(Proyecto_Canal_de_Bolivia PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Link Collections-C to your target
-target_link_libraries(CanalDeBolivia ${COLLECTIONS_C_LIB})
+# Link libraries if needed (add any libraries your project depends on)
+# target_link_libraries(Proyecto_Canal_de_Bolivia <library_name>)

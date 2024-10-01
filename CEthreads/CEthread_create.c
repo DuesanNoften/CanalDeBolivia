@@ -7,15 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-typedef struct {
-    int (*start_routine)(void *);
-    void *arg;
-    char *stack;
-    size_t stack_size;
-} CEthreads_create;
-
 #include "CEthread.h"
-int CEthread_create(CEthreads_create *ce_thread){
+int CEthread_create(CEthreads_t *ce_thread){
     ce_thread->stack = malloc(ce_thread->stack_size);
     if (ce_thread->stack == NULL) {
         return -1;

@@ -25,9 +25,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcb2842-f228-435b-811a-ca955d078018" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CEthreads/CEthread.h" beforeDir="false" afterPath="$PROJECT_DIR$/CEthreads/CEthread.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CEthreads/CEthread_create.c" beforeDir="false" afterPath="$PROJECT_DIR$/CEthreads/CEthread_create.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +137,9 @@
       <workItem from="1727161305548" duration="1229000" />
       <workItem from="1727162544792" duration="11738000" />
       <workItem from="1727749719558" duration="3032000" />
-      <workItem from="1727753060618" duration="723000" />
+      <workItem from="1727753060618" duration="2578000" />
+      <workItem from="1727755648197" duration="2967000" />
+      <workItem from="1727758756488" duration="1433000" />
     </task>
     <servers />
   </component>
