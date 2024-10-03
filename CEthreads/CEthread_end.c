@@ -1,11 +1,11 @@
-//
-// Created by duesan on 30/09/24.
-//
+#include <signal.h>
+#include <stdlib.h>
 #include "CEthread.h"
-void CEthread_end(CEthread *thread){
-  if(thread->status == CETHREAD_RUNNING){
-    thread->status = CETHREAD_STOPPED;
-  }else{
-      thread->status = CETHREAD_STOPPED;
-  }
+
+void CEthread_end(CEthreads_t *ce_thread) {
+    // Send a signal to terminate the thread
+    kill(ce_thread->thread_id, SIGKILL);
+
+    // Free the allocated stack memory
+    free(ce_thread->stack);
 }
