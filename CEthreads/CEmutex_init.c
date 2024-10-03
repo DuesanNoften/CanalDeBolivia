@@ -1,9 +1,7 @@
-//
-// Created by duesan on 30/09/24.
-//
 #include "CEthread.h"
-int CEmutex_init(struct CEmutex *mutex){
-  mutex->lock = 0;
-  mutex->owner = 0;
-  return 0;
-  }
+
+// Function to initialize a mutex
+int CEmutex_init(CEmutex_t *ce_mutex) {
+    atomic_flag_clear(&ce_mutex->lock);
+    return 0;
+}

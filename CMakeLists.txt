@@ -8,6 +8,7 @@ add_executable(Proyecto_Canal_de_Bolivia
         CEmutex_destroy.c
         CEmutex_init.c
         CEmutex_unlock.c
+        CEmutex_lock.c
         CEthread_create.c
         CEthread_end.c
         CEthread_join.c

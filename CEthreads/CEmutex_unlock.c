@@ -1,7 +1,5 @@
-//
-// Created by duesan on 30/09/24.
-//
 #include "CEthread.h"
-void CEmutex_lock(CEmutex *mutex){
-  mutex->lock = 1;
-  }
+
+void CEmutex_unlock(CEmutex_t *ce_mutex) {
+    atomic_flag_clear(&ce_mutex->lock);
+}
