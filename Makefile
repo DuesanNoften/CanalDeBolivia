@@ -8,7 +8,7 @@ CFLAGS = -Wall -g
 TARGET = CanalDeBolivia
 
 # Source files
-SRCS = CEthreads/CEthread_create.c main.c
+SRCS = CEthreads/CEthread_create.c CEthreads/CEthread_join.c main.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)

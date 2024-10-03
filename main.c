@@ -5,7 +5,8 @@
 
 int thread_function(void *arg) {
     printf("Thread is running\n");
-    sleep(2000);
+    CEthreads_t *ce_thread = (CEthreads_t *)arg;
+    ce_thread->is_finished = 1;
     return 0;
 }
 
@@ -23,11 +24,18 @@ int main() {
     my_thread2.arg = NULL;
     my_thread.stack_size = 1024 * 1024;
     my_thread2.stack_size = 1024 * 1024;// 1 MB stack
+    my_thread.is_finished = 0;
 
     if (CEthread_create(&my_thread) == -1 || CEthread_create(&my_thread2) == -1) {
         printf("Failed to create thread\n");
         return 1;
     }
+
+
+    int retval;
+    CEthread_join(&my_thread, &retval);
+    printf("Thread returned: %d\n", retval);
+    return 0;
 
     sleep(1);// Give the thread time to run
     free(my_thread.stack);
