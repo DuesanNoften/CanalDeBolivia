@@ -1,10 +1,15 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include "ship.h"  // create and move ships
+#include "canal.h"  // Draw the canal and the ships on it
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+SDL_Window* window = NULL;
+SDL_Renderer* renderer = NULL;
 
-int main(int argc, char* args[]) {
+int initSDL() {
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("Error initializing SDL: %s\n", SDL_GetError());
@@ -12,25 +17,39 @@ int main(int argc, char* args[]) {
     }
 
     // Create window
-    SDL_Window* window = SDL_CreateWindow("Proyecto Canal de Bolivia", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Scheduling Ships Canal de Bolivia", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == NULL) {
         printf("Error creating window: %s\n", SDL_GetError());
-        SDL_Quit();
         return -1;
     }
 
     // Create Render
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (renderer == NULL) {
         printf("Error creating render: %s\n", SDL_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
         return -1;
     }
 
-    // Main event loop
-    SDL_Event e;
+    return 0;
+}
+
+int main(int argc, char* args[]) {
+    if (initSDL() != 0) return -1;
+
     int quit = 0;
+    SDL_Event e;
+
+    // Creating ships
+    Ship* ship1 = createShip(0, 100);  // Normal
+    Ship* ship2 = createShip(1, 200);  // Pesquero
+    Ship* ship3 = createShip(2, 300);  // Patrulla
+
+    // Creating the ships threads
+    pthread_t thread1, thread2, thread3;
+    pthread_create(&thread1, NULL, moveShip, ship1);
+    pthread_create(&thread2, NULL, moveShip, ship2);
+    pthread_create(&thread3, NULL, moveShip, ship3);
+
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
@@ -38,16 +57,17 @@ int main(int argc, char* args[]) {
             }
         }
 
-        // Clean screen
-        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF); 
+        // Clean window
+        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
 
-        // Render -> a rectangle
-        SDL_SetRenderDrawColor(renderer, 0x86, 0x57, 0xDB, 0xFF);//entry (window, R, G, B, alpha)
-        SDL_Rect fillRect = { 200, 100, 200, 400}; //entry (x_0, y_0, x_final, y_final)
-        SDL_RenderFillRect(renderer, &fillRect);
+        // Draw the canal and the ships
+        drawCanal(renderer);
+        drawShip(renderer, ship1);
+        drawShip(renderer, ship2);
+        drawShip(renderer, ship3);
 
-        // Update screen
+        // Refresh screen
         SDL_RenderPresent(renderer);
     }
 
@@ -55,6 +75,15 @@ int main(int argc, char* args[]) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+
+    // Wait until the threads finished
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+    pthread_join(thread3, NULL);
+
+    free(ship1);
+    free(ship2);
+    free(ship3);
 
     return 0;
 }
