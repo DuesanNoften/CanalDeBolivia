@@ -9,6 +9,9 @@
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
+// Create a mutex to sync the canal access
+pthread_mutex_t canal_mutex;
+
 int initSDL() {
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -30,7 +33,23 @@ int initSDL() {
         return -1;
     }
 
+    // Initialize canal mutex
+    pthread_mutex_init(&canal_mutex, NULL);
+
     return 0;
+}
+
+// Función para seleccionar el barco con mayor prioridad (el más rápido)
+Ship* getHighestPriorityShip(Ship* ships[], int numShips) {
+    Ship* highestPriorityShip = NULL;
+    for (int i = 0; i < numShips; i++) {
+        if (ships[i]->x < SCREEN_WIDTH / 2) {  // Solo los barcos que aún no han cruzado
+            if (highestPriorityShip == NULL || ships[i]->speed > highestPriorityShip->speed) {
+                highestPriorityShip = ships[i];  // Encontrar el barco más rápido
+            }
+        }
+    }
+    return highestPriorityShip;
 }
 
 int main(int argc, char* args[]) {
@@ -40,9 +59,13 @@ int main(int argc, char* args[]) {
     SDL_Event e;
 
     // Creating ships
-    Ship* ship1 = createShip(0, 100);  // Normal
-    Ship* ship2 = createShip(1, 200);  // Pesquero
-    Ship* ship3 = createShip(2, 300);  // Patrulla
+    Ship* ship1 = createShip(0, 300);  // Normal
+    Ship* ship2 = createShip(1, 310);  // Pesquero
+    Ship* ship3 = createShip(2, 320);  // Patrulla
+
+    //Priority line for ships
+    //Ship* ships[] = {ship1, ship2, ship3};
+    //int numShips = 3;
 
     // Creating the ships threads
     pthread_t thread1, thread2, thread3;
@@ -81,6 +104,10 @@ int main(int argc, char* args[]) {
     pthread_join(thread2, NULL);
     pthread_join(thread3, NULL);
 
+    //kill canal mutex
+    pthread_mutex_destroy(&canal_mutex);
+
+    //Free memory
     free(ship1);
     free(ship2);
     free(ship3);
