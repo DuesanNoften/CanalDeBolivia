@@ -15,3 +15,11 @@
 * **Kevin**
 * **Irene**
 * **Juan Daniel** 
+
+## Ejecutar el proyecto ▶️
+
+Use los comandos:
+```
+>>>make
+>>>./canal_bolivia 
+```

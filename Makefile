@@ -2,8 +2,6 @@ CC = gcc
 CFLAGS = -Wall -g   
 #----*****Change the pthread for our thread library*****-----
 LIBS = -lSDL2 -lpthread   # SDL2 & pthread libraries
-
-
 TARGET = canal_bolivia # Exe name
 OBJS = main.o ship.o canal.o
 
