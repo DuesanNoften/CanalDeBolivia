@@ -16,6 +16,6 @@ void drawShip(SDL_Renderer* renderer, Ship* ship) {
 // Draw the canal
 void drawCanal(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);  // White for the canal
-    SDL_Rect fillRect = {80, (SCREEN_HEIGHT / 2)-30, (SCREEN_WIDTH/2)+80, 60};
+    SDL_Rect fillRect = {120, (SCREEN_HEIGHT / 2)-30, (SCREEN_WIDTH/2)+120, 60}; 
     SDL_RenderFillRect(renderer, &fillRect);
 }

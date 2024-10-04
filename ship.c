@@ -27,7 +27,7 @@ void* moveShip(void* arg) {
 
         //Move the ship through the canal (one at a time)
         printf("%d type ship is crossing.\n", ship->type);
-        while(ship->x < (SCREEN_WIDTH/2)+80){
+        while(ship->x < (SCREEN_WIDTH/2)+250){
             ship->x += ship->speed;
             usleep(10000);  // Control the ship speed (microsec)
         }

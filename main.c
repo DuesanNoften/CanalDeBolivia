@@ -39,13 +39,13 @@ int initSDL() {
     return 0;
 }
 
-// Función para seleccionar el barco con mayor prioridad (el más rápido)
+// Select 1st priority ship by speed
 Ship* getHighestPriorityShip(Ship* ships[], int numShips) {
     Ship* highestPriorityShip = NULL;
     for (int i = 0; i < numShips; i++) {
-        if (ships[i]->x < SCREEN_WIDTH / 2) {  // Solo los barcos que aún no han cruzado
+        if (ships[i]->x < SCREEN_WIDTH / 2) {  // Ships that are waiting
             if (highestPriorityShip == NULL || ships[i]->speed > highestPriorityShip->speed) {
-                highestPriorityShip = ships[i];  // Encontrar el barco más rápido
+                highestPriorityShip = ships[i];  // Find the fastest in queue
             }
         }
     }
@@ -59,9 +59,9 @@ int main(int argc, char* args[]) {
     SDL_Event e;
 
     // Creating ships
-    Ship* ship1 = createShip(0, 300);  // Normal
-    Ship* ship2 = createShip(1, 310);  // Pesquero
-    Ship* ship3 = createShip(2, 320);  // Patrulla
+    Ship* ship1 = createShip(0, 280);  // Normal
+    Ship* ship2 = createShip(1, 290);  // Fishing
+    Ship* ship3 = createShip(2, 300);  // PAtrol
 
     //Priority line for ships
     //Ship* ships[] = {ship1, ship2, ship3};
