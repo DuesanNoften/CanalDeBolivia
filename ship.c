@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 // Create a new ship
-Ship* crearBarco(int stype, int yPos) {
+Ship* createShip(int stype, int yPos) {
     Ship* newShip = (Ship*)malloc(sizeof(Ship));
     newShip->x = 0;
     newShip->y = yPos;
@@ -19,7 +19,7 @@ void* moveShip(void* arg) {
 
     while (ship->x < SCREEN_WIDTH) {
         ship->x += ship->speed;
-        usleep(100000);  // Control the ship speed (microsec)
+        usleep(10000);  // Control the ship speed (microsec)
     }
 
     return NULL;
