@@ -16,4 +16,28 @@ typedef struct {
     CEmutex_t canal_lock; // Mutex to control access to the canal
 } Canal;
 
+typedef struct Node {
+    Ship *ship;          // Pointer to the ship (thread) struct
+    struct Node *next;   // Pointer to the next node in the queue
+} Node;
+
+typedef struct Queue {
+    Node *front;  // Front of the queue (first to be processed)
+    Node *rear;   // Rear of the queue (last to be processed)
+    int size;     // Number of elements in the queue
+} Queue;
+
+Queue* init_queue();
+
+void enqueue(Queue *q, Ship *ship);
+
+Ship* dequeue(Queue *q);
+
+Ship* peek(Queue *q);
+
+int queue_is_empty(Queue *q);
+
+void destroy_queue(Queue *q);
+
+
 #endif CANAL_H
