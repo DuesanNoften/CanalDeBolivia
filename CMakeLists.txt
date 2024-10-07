@@ -12,6 +12,9 @@ add_executable(Proyecto_Canal_de_Bolivia
         CEthread_create.c
         CEthread_end.c
         CEthread_join.c
+        Equidad.c
+        Letrero.c
+        Tico.c
         main.c
 )
 
