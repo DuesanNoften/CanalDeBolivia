@@ -8,11 +8,7 @@ set(CMAKE_C_STANDARD 99)
 
 # Add the executable
 add_executable(SchedulingShips
-    Scheduling/round_robin.c
-    Scheduling/priority.c
-    Scheduling/sjf.c
-    Scheduling/fcfs.c
-    Scheduling/real_time.c
+    Scheduling/scheduling.c
     main.c
 )
 

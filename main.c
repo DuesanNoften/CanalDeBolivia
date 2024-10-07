@@ -1,43 +1,51 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Scheduling/scheduling.h"
+#include "scheduling.h"
 
 int main() {
-    // Create some ships
-    // ID, type, priority, time, real_time_max
-    Ship ship1 = {1, 0, 3, 10, 20};  
-    Ship ship2 = {2, 2, 1, 5, 10};
-    Ship ship3 = {3, 1, 2, 8, 15};
+    // Crear algunos barcos con diferentes parámetros
+    Ship ship1 = {1, 3, 6, 6, 20};
+    Ship ship2 = {2, 1, 4, 4, 10};
+    Ship ship3 = {3, 2, 8, 8, 15};
 
-    // Create a linked list of ships (threads)
-    Node *head = (Node *)malloc(sizeof(Node));
-    head->ship = ship1;
-    head->next = (Node *)malloc(sizeof(Node));
-    head->next->ship = ship2;
-    head->next->next = (Node *)malloc(sizeof(Node));
-    head->next->next->ship = ship3;
-    head->next->next->next = NULL;
+    // Inicializar la lista de barcos
+    Node *head = NULL;
+    insert_ship(&head, ship1);
+    insert_ship(&head, ship2);
+    insert_ship(&head, ship3);
 
-    // Run scheduling algorithms
-    printf("Running Round Robin:\n");
-    round_robin(head);
+    printf("Lista de barcos inicial:\n");
+    Node *temp = head;
+    while (temp != NULL) {
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n", 
+               temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max);
+        temp = temp->next;
+    }
+    
+    // Seleccionar un algoritmo de calendarización para probar
+    
+    //printf("\nProbando Round Robin:\n");
+    //round_robin(&head, 2);  // Quantum es 2
 
-    printf("Running Priority:\n");
-    priority(head);
+     printf("\nProbando Prioridad:\n");
+     priority_scheduling(&head);
 
-    printf("Running SJF:\n");
-    sjf(head);
+    // printf("\nProbando SJF (Shortest Job First):\n");
+    // sjf_scheduling(&head);
 
-    printf("Running FCFS:\n");
-    fcfs(head);
+    // printf("\nProbando FCFS (First Come First Served):\n");
+    // fcfs_scheduling(&head);
 
-    printf("Running Real-Time:\n");
-    real_time(head);
+    // printf("\nProbando Tiempo Real:\n");
+    // real_time_scheduling(&head);
 
-    // Free allocated memory
-    free(head->next->next);
-    free(head->next);
-    free(head);
+    printf("\nLista de barcos después de aplicar el algoritmo:\n");
+    temp = head;
+    while (temp != NULL) {
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n", 
+               temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max);
+        temp = temp->next;
+    }
 
     return 0;
 }
