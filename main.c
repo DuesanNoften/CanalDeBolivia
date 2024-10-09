@@ -14,8 +14,10 @@ SDL_Renderer* renderer = NULL;
 pthread_mutex_t canal_mutex;
 
 // List of ships
-Ship* ships[100];  // Until 100 ships to prevent array overflows
-int numShips = 0;  // ship counter
+Ship* shipsLeftToRight[100];  // Until 100 ships to prevent array overflows
+int numShipsLeftToRight = 0;  // ship counter
+Ship* shipsRightToLeft[100];  // Until 100 ships to prevent array overflows
+int numShipsRightToLeft = 0;  // ship counter
 
 int initSDL() {
     // // Initialize SDL
@@ -47,19 +49,25 @@ int initSDL() {
 // Gen random ship
 void generarBarcoAleatorio() {
     int tipo = rand() % 3;  // Type: 0 = Normal, 1 = fishing, 2 = Patrol
-    int yPos = 280 + rand() % (300 - 280 +1);  // Posición vertical aleatoria
+    int yPos = 280 + rand() % (300 - 280 +1);  // Random Pos y in canal
+    int direction = rand() % 2; //Random direction: 0 = init left, 1 = init right
 
-    Ship* nuevoBarco = createShip(tipo, yPos);
+    Ship* nuevoBarco = createShip(tipo, yPos, direction);
 
     // Add ship to waiting list
-    ships[numShips] = nuevoBarco;
-    numShips++;
-
+    if (direction==0){
+        shipsLeftToRight[numShipsLeftToRight] = nuevoBarco;
+        numShipsLeftToRight++; //left to right
+    } else {
+        shipsRightToLeft[numShipsRightToLeft] = nuevoBarco;
+        numShipsRightToLeft++; //right to left
+    }
+    
     // Create the ship thread
     pthread_t thread;
     pthread_create(&thread, NULL, moveShip, nuevoBarco);
 
-    printf("Ship type %d gen in pos y=%d\n", tipo, yPos);
+    printf("Ship type %d gen in pos y=%d, direction=%d\n", tipo, yPos, direction);
 }
 
 int main(int argc, char* args[]) {
@@ -91,8 +99,12 @@ int main(int argc, char* args[]) {
         // Draw the canal and the ships
         drawCanal(renderer);
 
-        for (int i = 0; i < numShips; i++) {
-            drawShip(renderer, ships[i]);
+        for (int i = 0; i < numShipsLeftToRight; i++) {
+            drawShip(renderer, shipsLeftToRight[i]);
+        }
+
+        for (int i = 0; i < numShipsRightToLeft; i++) {
+            drawShip(renderer, shipsRightToLeft[i]);
         }
 
         // Refresh screen
@@ -108,8 +120,12 @@ int main(int argc, char* args[]) {
     pthread_mutex_destroy(&canal_mutex);
 
     //Free memory
-    for (int i = 0; i < numShips; i++) {
-        free(ships[i]);
+    for (int i = 0; i < numShipsLeftToRight; i++) {
+        free(shipsLeftToRight[i]);
+    }
+
+    for (int i = 0; i < numShipsRightToLeft; i++) {
+        free(shipsRightToLeft[i]);
     }
 
     return 0;

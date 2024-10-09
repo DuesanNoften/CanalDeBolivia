@@ -8,12 +8,19 @@
 extern pthread_mutex_t canal_mutex;
 
 // Create a new ship
-Ship* createShip(int stype, int yPos) {
+Ship* createShip(int stype, int yPos, int direction) {
     Ship* newShip = (Ship*)malloc(sizeof(Ship));
-    newShip->x = 0;
     newShip->y = yPos;
     newShip->type = stype;
     newShip->speed = (stype == 0) ? 1 : (stype == 1) ? 2 : 3;  // 0 = Normal, 1 = Fishing, 2 = Patrol
+    newShip->direction = direction;
+
+    if (direction==0){
+        newShip->x = 0; //left to right
+    } else {
+        newShip->x = SCREEN_WIDTH-50; //right to left
+    }
+
     return newShip;
 }
 
@@ -21,25 +28,43 @@ Ship* createShip(int stype, int yPos) {
 void* moveShip(void* arg) {
     Ship* ship = (Ship*) arg;
 
-    while (ship->x < SCREEN_WIDTH) {
-        // Try to get the canal mutex, to locked it
+    while (1) {
+        // Try to get the canal mutex, to lock it
         pthread_mutex_lock(&canal_mutex);
 
-        //Move the ship through the canal (one at a time)
-        printf("%d type ship is crossing.\n", ship->type);
-        while(ship->x < (SCREEN_WIDTH/2)+250){
-            ship->x += ship->speed;
-            usleep(10000);  // Control the ship speed (microsec)
+        // Move the ship through the canal (one at a time)
+        if (ship->direction == 0) {  // Left to right
+            while (ship->x < SCREEN_WIDTH / 2) {
+                ship->x += ship->speed;
+                usleep(10000);  // Control the speed
+            }
+        } else {  // Right to left
+            while (ship->x > SCREEN_WIDTH / 2) {
+                ship->x -= ship->speed;
+                usleep(10000);  // Control the speed
+            }
         }
 
-        // Free the canal mutex
+        printf("%d type ship is crossing in direction %d.\n", ship->type, ship->direction);
+
+        
+
+        // Continue moving the ship out of the canal
+        if (ship->direction == 0) {  // Left to right
+            while (ship->x < SCREEN_WIDTH) {
+                ship->x += ship->speed;
+                usleep(10000);  // Control the speed
+            }
+        } else {  // Right to left
+            while (ship->x > -50) {  // Move out of the screen on the left
+                ship->x -= ship->speed;
+                usleep(10000);  // Control the speed
+            }
+        }
+        // Free the canal mutex after crossing the center
         pthread_mutex_unlock(&canal_mutex);
 
-        // Finish moving the ship out of canal
-        while (ship->x < SCREEN_WIDTH) {
-            ship->x += ship->speed;
-            usleep(10000);
-        }
+        break;  // The ship has finished crossing the canal
     }
 
     return NULL;
