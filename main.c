@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "ship.h"  // create and move ships
 #include "canal.h"  // Draw the canal and the ships on it
+#include <time.h>
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -12,10 +13,14 @@ SDL_Renderer* renderer = NULL;
 // Create a mutex to sync the canal access
 pthread_mutex_t canal_mutex;
 
+// List of ships
+Ship* ships[100];  // Until 100 ships to prevent array overflows
+int numShips = 0;  // ship counter
+
 int initSDL() {
-    // Initialize SDL
+    // // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("Error initializing SDL: %s\n", SDL_GetError());
+        printf("Error inicializing SDL: %s\n", SDL_GetError());
         return -1;
     }
 
@@ -39,6 +44,85 @@ int initSDL() {
     return 0;
 }
 
+// Gen random ship
+void generarBarcoAleatorio() {
+    int tipo = rand() % 3;  // Type: 0 = Normal, 1 = fishing, 2 = Patrol
+    int yPos = 280 + rand() % (300 - 280 +1);  // Posición vertical aleatoria
+
+    Ship* nuevoBarco = createShip(tipo, yPos);
+
+    // Add ship to waiting list
+    ships[numShips] = nuevoBarco;
+    numShips++;
+
+    // Create the ship thread
+    pthread_t thread;
+    pthread_create(&thread, NULL, moveShip, nuevoBarco);
+
+    printf("Ship type %d gen in pos y=%d\n", tipo, yPos);
+}
+
+int main(int argc, char* args[]) {
+    if (initSDL() != 0) return -1;
+
+    srand(time(NULL));  // Random seed
+
+    int quit = 0;
+    SDL_Event e;
+
+    while (!quit) {
+        while (SDL_PollEvent(&e) != 0) {
+            // Verify if closed window
+            if (e.type == SDL_QUIT) {
+                quit = 1;
+            }
+
+            // Detect keyboard interruption <space>
+            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE) {
+                // gen the ship when space bar press
+                generarBarcoAleatorio();
+            }
+        }
+
+        // Clean window
+        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+        SDL_RenderClear(renderer);
+
+        // Draw the canal and the ships
+        drawCanal(renderer);
+
+        for (int i = 0; i < numShips; i++) {
+            drawShip(renderer, ships[i]);
+        }
+
+        // Refresh screen
+        SDL_RenderPresent(renderer);
+    }
+
+    // Clean and close SDL
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    //kill canal mutex
+    pthread_mutex_destroy(&canal_mutex);
+
+    //Free memory
+    for (int i = 0; i < numShips; i++) {
+        free(ships[i]);
+    }
+
+    return 0;
+}
+
+//--------------------------------------------------------
+
+//SDL_Window* window = NULL;
+//SDL_Renderer* renderer = NULL;
+
+
+/*
+
 // Select 1st priority ship by speed
 Ship* getHighestPriorityShip(Ship* ships[], int numShips) {
     Ship* highestPriorityShip = NULL;
@@ -51,71 +135,4 @@ Ship* getHighestPriorityShip(Ship* ships[], int numShips) {
     }
     return highestPriorityShip;
 }
-
-int main(int argc, char* args[]) {
-    if (initSDL() != 0) return -1;
-
-    int quit = 0;
-    SDL_Event e;
-
-    // Creating ships
-    Ship* ship4 = createShip(2, 295);  // PAtrol
-    Ship* ship1 = createShip(0, 280);  // Normal
-    Ship* ship2 = createShip(1, 290);  // Fishing
-    Ship* ship3 = createShip(2, 300);  // PAtrol
-
-    //Priority line for ships
-    //Ship* ships[] = {ship1, ship2, ship3};
-    //int numShips = 3;
-
-    // Creating the ships threads
-    pthread_t thread1, thread2, thread3, thread4;
-    pthread_create(&thread1, NULL, moveShip, ship1);
-    pthread_create(&thread2, NULL, moveShip, ship2);
-    pthread_create(&thread3, NULL, moveShip, ship3);
-    pthread_create(&thread4, NULL, moveShip, ship4);
-
-    while (!quit) {
-        while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
-                quit = 1;
-            }
-        }
-
-        // Clean window
-        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-        SDL_RenderClear(renderer);
-
-        // Draw the canal and the ships
-        drawCanal(renderer);
-        drawShip(renderer, ship1);
-        drawShip(renderer, ship2);
-        drawShip(renderer, ship3);
-        drawShip(renderer, ship4);
-
-        // Refresh screen
-        SDL_RenderPresent(renderer);
-    }
-
-    // Clean and close SDL
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
-    // Wait until the threads finished
-    pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
-    pthread_join(thread3, NULL);
-    pthread_join(thread4, NULL);
-
-    //kill canal mutex
-    pthread_mutex_destroy(&canal_mutex);
-
-    //Free memory
-    free(ship1);
-    free(ship2);
-    free(ship3);
-    free(ship4);
-
-    return 0;
-}
+*/
