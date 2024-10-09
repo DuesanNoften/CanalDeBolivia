@@ -49,7 +49,7 @@ int initSDL() {
 // Gen random ship
 void generarBarcoAleatorio() {
     int tipo = rand() % 3;  // Type: 0 = Normal, 1 = fishing, 2 = Patrol
-    int yPos = 280 + rand() % (300 - 280 +1);  // Random Pos y in canal
+    int yPos = 275 + rand() % (305 - 275 +1);  // Random Pos y in canal
     int direction = rand() % 2; //Random direction: 0 = init left, 1 = init right
 
     Ship* nuevoBarco = createShip(tipo, yPos, direction);
