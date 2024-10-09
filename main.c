@@ -59,6 +59,7 @@ int main(int argc, char* args[]) {
     SDL_Event e;
 
     // Creating ships
+    Ship* ship4 = createShip(2, 295);  // PAtrol
     Ship* ship1 = createShip(0, 280);  // Normal
     Ship* ship2 = createShip(1, 290);  // Fishing
     Ship* ship3 = createShip(2, 300);  // PAtrol
@@ -68,10 +69,11 @@ int main(int argc, char* args[]) {
     //int numShips = 3;
 
     // Creating the ships threads
-    pthread_t thread1, thread2, thread3;
+    pthread_t thread1, thread2, thread3, thread4;
     pthread_create(&thread1, NULL, moveShip, ship1);
     pthread_create(&thread2, NULL, moveShip, ship2);
     pthread_create(&thread3, NULL, moveShip, ship3);
+    pthread_create(&thread4, NULL, moveShip, ship4);
 
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
@@ -89,6 +91,7 @@ int main(int argc, char* args[]) {
         drawShip(renderer, ship1);
         drawShip(renderer, ship2);
         drawShip(renderer, ship3);
+        drawShip(renderer, ship4);
 
         // Refresh screen
         SDL_RenderPresent(renderer);
@@ -103,6 +106,7 @@ int main(int argc, char* args[]) {
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
     pthread_join(thread3, NULL);
+    pthread_join(thread4, NULL);
 
     //kill canal mutex
     pthread_mutex_destroy(&canal_mutex);
@@ -111,6 +115,7 @@ int main(int argc, char* args[]) {
     free(ship1);
     free(ship2);
     free(ship3);
+    free(ship4);
 
     return 0;
 }
