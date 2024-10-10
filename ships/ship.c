@@ -1,4 +1,4 @@
-#include "ships/ship.h"
+#include "ship.h"
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <unistd.h>

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h>
-#include "ships/ship.h"
+#include "ship.h"
 #include "shipGenerator.h"
 
 // List of ships

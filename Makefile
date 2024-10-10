@@ -13,20 +13,20 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
 
 # compile main.c
-main.o: main.c ship.h canal.h shipGenerator.h
+main.o: main.c ships/ship.h canal.h ships/shipGenerator.h
 	$(CC) $(CFLAGS) -c main.c
 
 # compile ship.c
-ship.o: ship.c ship.h
-	$(CC) $(CFLAGS) -c ship.c
+ship.o: ships/ship.c ships/ship.h
+	$(CC) $(CFLAGS) -c ships/ship.c
 
 # compile canal.c
-canal.o: canal.c canal.h ship.h
+canal.o: canal.c canal.h ships/ship.h
 	$(CC) $(CFLAGS) -c canal.c
 
 # compile shipGenerator.c
-shipGenerator.o: shipGenerator.c shipGenerator.h ship.h
-	$(CC) $(CFLAGS) -c shipGenerator.c
+shipGenerator.o: ships/shipGenerator.c ships/shipGenerator.h ships/ship.h
+	$(CC) $(CFLAGS) -c ships/shipGenerator.c
 
 # clean compiled files
 clean:

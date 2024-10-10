@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
-#include "ship.h"  // create and move ships
+#include "ships/ship.h"  // create and move ships
 #include "canal.h"  // Draw the canal and the ships on it
 #include <time.h>
 #include "shipGenerator.h"
