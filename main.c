@@ -6,18 +6,19 @@
 #include "ship.h"  // create and move ships
 #include "canal.h"  // Draw the canal and the ships on it
 #include <time.h>
+#include "shipGenerator.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
-
-// Create a mutex to sync the canal access
-pthread_mutex_t canal_mutex;
 
 // List of ships
 Ship* shipsLeftToRight[100];  // Until 100 ships to prevent array overflows
 int numShipsLeftToRight = 0;  // ship counter
 Ship* shipsRightToLeft[100];  // Until 100 ships to prevent array overflows
 int numShipsRightToLeft = 0;  // ship counter
+
+// Create a mutex to sync the canal access
+pthread_mutex_t canal_mutex;
 
 int initSDL() {
     // // Initialize SDL
@@ -44,49 +45,6 @@ int initSDL() {
     pthread_mutex_init(&canal_mutex, NULL);
 
     return 0;
-}
-
-// Gen random ship
-void generarBarcoAleatorio() {
-    int tipo = rand() % 3;  // Type: 0 = Normal, 1 = fishing, 2 = Patrol
-    int yPos = 275 + rand() % (305 - 275 +1);  // Random Pos y in canal
-    int direction = rand() % 2; //Random direction: 0 = init left, 1 = init right
-
-    Ship* nuevoBarco = createShip(tipo, yPos, direction);
-
-    // Add ship to waiting list
-    if (direction==0){
-        shipsLeftToRight[numShipsLeftToRight] = nuevoBarco;
-        numShipsLeftToRight++; //left to right
-    } else {
-        shipsRightToLeft[numShipsRightToLeft] = nuevoBarco;
-        numShipsRightToLeft++; //right to left
-    }
-    
-    // Create the ship thread
-    pthread_t thread;
-    pthread_create(&thread, NULL, moveShip, nuevoBarco);
-
-    printf("Ship type %d gen in pos y=%d, direction=%d\n", tipo, yPos, direction);
-}
-
-void generarBarcoEspecifico(int tipo, int yPos, int direction) {
-    Ship* nuevoBarco = createShip(tipo, yPos, direction);
-
-    // Add ship to correspondent list
-    if (direction == 0) {  // Left to right
-        shipsLeftToRight[numShipsLeftToRight] = nuevoBarco;
-        numShipsLeftToRight++;
-    } else {  // Right to left
-        shipsRightToLeft[numShipsRightToLeft] = nuevoBarco;
-        numShipsRightToLeft++;
-    }
-
-    // Create the thread for the ship
-    pthread_t thread;
-    pthread_create(&thread, NULL, moveShip, nuevoBarco);
-
-    printf("Ship type %d gen in pos y= %d , direction=%d\n", tipo, yPos, direction);
 }
 
 int main(int argc, char* args[]) {
