@@ -44,10 +44,7 @@ void* moveShip(void* arg) {
                 usleep(10000);  // Control the speed
             }
         }
-
         printf("%d type ship is crossing in direction %d.\n", ship->type, ship->direction);
-
-        
 
         // Continue moving the ship out of the canal
         if (ship->direction == 0) {  // Left to right

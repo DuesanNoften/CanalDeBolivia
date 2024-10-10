@@ -70,6 +70,25 @@ void generarBarcoAleatorio() {
     printf("Ship type %d gen in pos y=%d, direction=%d\n", tipo, yPos, direction);
 }
 
+void generarBarcoEspecifico(int tipo, int yPos, int direction) {
+    Ship* nuevoBarco = createShip(tipo, yPos, direction);
+
+    // Add ship to correspondent list
+    if (direction == 0) {  // Left to right
+        shipsLeftToRight[numShipsLeftToRight] = nuevoBarco;
+        numShipsLeftToRight++;
+    } else {  // Right to left
+        shipsRightToLeft[numShipsRightToLeft] = nuevoBarco;
+        numShipsRightToLeft++;
+    }
+
+    // Create the thread for the ship
+    pthread_t thread;
+    pthread_create(&thread, NULL, moveShip, nuevoBarco);
+
+    printf("Ship type %d gen in pos y= %d , direction=%d\n", tipo, yPos, direction);
+}
+
 int main(int argc, char* args[]) {
     if (initSDL() != 0) return -1;
 
@@ -85,10 +104,36 @@ int main(int argc, char* args[]) {
                 quit = 1;
             }
 
-            // Detect keyboard interruption <space>
-            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE) {
-                // gen the ship when space bar press
-                generarBarcoAleatorio();
+            // Detect keyboard interruption
+            if (e.type == SDL_KEYDOWN) {
+                switch (e.key.keysym.sym) {
+                    // Ships left to right
+                    case SDLK_q:  // Patrol left
+                        generarBarcoEspecifico(2, 275 + rand() % (305 - 275 + 1), 0);  // Type 2 (Patrol), Direction 0 (right to left)
+                        break;
+                    case SDLK_w:  // Fishing left
+                        generarBarcoEspecifico(1, 275 + rand() % (305 - 275 + 1), 0);  // Type 1 (Fishing), Direction 0
+                        break;
+                    case SDLK_e:  // Normal left
+                        generarBarcoEspecifico(0, 275 + rand() % (305 - 275 + 1), 0);  // Type 0 (Normal), Direction 0
+                        break;
+                    
+                    // Ships left to right
+                    case SDLK_i:  // Normal right
+                        generarBarcoEspecifico(0, 275 + rand() % (305 - 275 + 1), 1);  // Type 0 (Normal), Direction 1 (left to right)
+                        break;
+                    case SDLK_o:  // Fishing right
+                        generarBarcoEspecifico(1, 275 + rand() % (305 - 275 + 1), 1);  // Type 1 (Fishing), Direction 1
+                        break;
+                    case SDLK_p:  // Patrol right
+                        generarBarcoEspecifico(2, 275 + rand() % (305 - 275 + 1), 1);  // Type 2 (Patrol), Direction 1
+                        break;
+
+                    // Ships generated random with space bar
+                    case SDLK_SPACE:
+                        generarBarcoAleatorio();
+                        break;                
+                }
             }
         }
 
