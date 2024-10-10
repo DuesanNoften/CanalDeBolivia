@@ -2,27 +2,10 @@
 #include <stdlib.h>
 #include "scheduling.h"
 
-// Inserta un barco en la lista enlazada
-void insert_ship(Node **head, Ship ship) {
-    Node *new_node = (Node*)malloc(sizeof(Node));
-    new_node->ship = ship;
-    new_node->next = NULL;
 
-    if (*head == NULL) {
-        *head = new_node;
-    } else {
-        Node *temp = *head;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = new_node;
-    }
-}
-
-// Algoritmo de Round Robin (sólo ordena la lista)
+// Algoritmo Round Robin: solo ordena la lista por quantum
 void round_robin(Node **head, int quantum) {
-    // Como Round Robin no requiere reordenar la lista en esta implementación, no se hacen cambios
-    printf("Round Robin: No requiere reordenar la lista\n");
+    printf("no se sabe como se debe ordenar la lista con RR\n");
 }
 
 // Algoritmo de Prioridad (ordena la lista por prioridad)

@@ -42,4 +42,4 @@ void CEmutex_unlock(CEmutex_t *ce_mutex);
 // Function to destroy a mutex
 void CEmutex_destroy(CEmutex_t *ce_mutex);
 
-#endif CETHREADS_H
+#endif
