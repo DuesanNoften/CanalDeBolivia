@@ -1,3 +1,4 @@
+//scheduling.h
 #ifndef SCHEDULING_H
 #define SCHEDULING_H
 
@@ -6,6 +7,7 @@
 // Estructura que representa un barco
 typedef struct {
     int id;
+    int x, y;
     int priority;
     int time;  
     int remaining_time;  

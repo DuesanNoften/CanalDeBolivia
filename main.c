@@ -1,7 +1,9 @@
+//main.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <SDL2/SDL.h>
+#include <time.h>
 #include "Scheduling/scheduling.h"
 #include "CEthreads/CEthread.h"
 #include "canal.h"
@@ -36,6 +38,9 @@ Ship create_ship(int id, int priority, int time) {
     ship.time = time;
     ship.remaining_time = time; // Inicialmente, el tiempo restante es igual al tiempo de procesamiento
     ship.real_time_max = time + 5; // Asumir un tiempo máximo para pasar por el canal
+
+    ship.x = 50;
+    ship.y = id *30;
 
     // Inicializar el mutex del barco
     if (CEmutex_init(&ship.mutex) != 0) {
@@ -73,11 +78,15 @@ void insert_ship(Node **head, Ship ship) {
         }
         temp->next = new_node;
     }
+    //Reorg priority list after new ship
+    priority_scheduling(head);
 }
 
 int main() {
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
+
+    srand(clock());
 
     if (initSDL(&window, &renderer) != 0) {
         printf("Error initializing SDL\n");
@@ -101,13 +110,13 @@ int main() {
     // Crear algunos barcos y añadirlos a las listas
     for (int i = 0; i < 5; i++) {
         //Ship ship = create_ship(i + 1, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 1, 1, 5); 
+        Ship ship = create_ship(i + 1, (rand() % 3)+1, 5); 
         insert_ship(&left_ships, ship);
     }
 
     for (int i = 0; i < 5; i++) {
         //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 6, 1, 5); 
+        Ship ship = create_ship(i + 6, (rand() % 3)+1, 5); 
         insert_ship(&right_ships, ship);
     }
 

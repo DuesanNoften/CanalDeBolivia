@@ -1,14 +1,27 @@
+//canal.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <SDL2/SDL.h>
 #include "canal.h"
 
+void drawShip(SDL_Renderer* renderer, Ship* ship) {
+    SDL_Rect shipRect = { ship->x, ship->y, 50, 20 };
+
+    // Change the color between ship types
+    if (ship->priority == 3) {
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);  // Red for the normal ones
+    } else if (ship->priority == 2) {
+        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);  // Green for fishing ones
+    } else {
+        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);  // Blue for patrol ones
+    }
+    SDL_RenderFillRect(renderer, &shipRect);
+}
+
 // Función para simular el paso de un barco
 void process_ship(Ship *ship, SDL_Renderer *renderer) {
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF); //greenn
-    SDL_Rect ship_rect = {100, ship->id * 50, 100, 30};
-    SDL_RenderFillRect(renderer, &ship_rect);
+    drawShip(renderer, ship);
     SDL_RenderPresent(renderer);
 
     printf("Thread for ship ID: %d is starting.\n", ship->id);
