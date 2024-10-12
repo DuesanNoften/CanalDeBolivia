@@ -31,15 +31,20 @@ int process_ship_thread(void *arg) {
 
 
 // Función para crear un barco y asignarle valores
-Ship create_ship(int id, int priority, int time) {
+Ship create_ship(int id, int priority, int time, int side) {
     Ship ship;
     ship.id = id;
     ship.priority = priority;
     ship.time = time;
     ship.remaining_time = time; // Inicialmente, el tiempo restante es igual al tiempo de procesamiento
     ship.real_time_max = time + 5; // Asumir un tiempo máximo para pasar por el canal
+    ship.side = side;
 
-    ship.x = 50;
+    if(side == 0){
+        ship.x = 30;
+    } else {
+        ship.x = 720;
+    }
     ship.y = id *30;
 
     // Inicializar el mutex del barco
@@ -59,12 +64,13 @@ Ship create_ship(int id, int priority, int time) {
         exit(EXIT_FAILURE);
     }
 
-    printf("BarcoID: %d creado con hilo.\n", ship.id);
+    printf("BarcoID: %d creado con hilo, prioridad = %d, lado = %d.\n", ship.id, ship.priority, ship.side);
 
     return ship;
 }
 
 void insert_ship(Node **head, Ship ship) {
+    
     Node *new_node = (Node*)malloc(sizeof(Node));
     new_node->ship = ship;
     new_node->next = NULL;
@@ -78,7 +84,7 @@ void insert_ship(Node **head, Ship ship) {
         }
         temp->next = new_node;
     }
-    //Reorg priority list after new ship
+    //Reorg priority list after new ship by priority -> type of ship
     priority_scheduling(head);
 }
 
@@ -86,7 +92,7 @@ int main() {
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
-    srand(clock());
+    srand(time(NULL));
 
     if (initSDL(&window, &renderer) != 0) {
         printf("Error initializing SDL\n");
@@ -107,17 +113,14 @@ int main() {
     Node *left_ships = NULL;
     Node *right_ships = NULL;
 
-    // Crear algunos barcos y añadirlos a las listas
-    for (int i = 0; i < 5; i++) {
-        //Ship ship = create_ship(i + 1, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 1, (rand() % 3)+1, 5); 
-        insert_ship(&left_ships, ship);
-    }
-
-    for (int i = 0; i < 5; i++) {
-        //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 6, (rand() % 3)+1, 5); 
-        insert_ship(&right_ships, ship);
+    for (int i = 0; i < 6; i++) {
+        int side = rand() % 2;  // Generar un valor aleatorio para side (0 o 1)
+        Ship new_ship = create_ship(i+1, (rand()%3)+1, 5, side);
+        if (side == 0) {
+            insert_ship(&left_ships, new_ship);
+        } else {
+            insert_ship(&right_ships, new_ship);
+        }
     }
 
     // Iniciar el paso de barcos por el canal

@@ -14,6 +14,7 @@ typedef struct {
     int real_time_max;  
     CEthreads_t thread;  
     CEmutex_t mutex;  
+    int side;
 } Ship;
 
 typedef struct Node {
