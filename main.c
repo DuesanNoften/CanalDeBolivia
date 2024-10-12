@@ -15,6 +15,8 @@
 int initSDL(SDL_Window **window, SDL_Renderer **renderer);
 void closeSDL(SDL_Window *window, SDL_Renderer *renderer);
 
+int id_counter = 0;
+
 // Prototipo de la función de procesamiento del barco
 int process_ship_thread(void *arg) {
     Ship *ship = (Ship *)arg;
@@ -39,7 +41,7 @@ Ship create_ship(int id, int priority, int time, int side) {
     ship.remaining_time = time; // Inicialmente, el tiempo restante es igual al tiempo de procesamiento
     ship.real_time_max = time + 5; // Asumir un tiempo máximo para pasar por el canal
     ship.side = side;
-
+    id_counter += 1;
     if(side == 0){
         ship.x = 30;
     } else {
@@ -67,6 +69,12 @@ Ship create_ship(int id, int priority, int time, int side) {
     printf("BarcoID: %d creado con hilo, prioridad = %d, lado = %d.\n", ship.id, ship.priority, ship.side);
 
     return ship;
+}
+//Ship create_ship(int id, int priority, int time, int side)
+Ship create_random_ship(){
+    int spriority = (rand()%3)+1;
+    int sside = rand()%2;
+    return create_ship(id_counter, spriority, 5, sside);
 }
 
 void insert_ship(Node **head, Ship ship) {
@@ -115,14 +123,21 @@ int main() {
 
     for (int i = 0; i < 6; i++) {
         int side = rand() % 2;  // Generar un valor aleatorio para side (0 o 1)
-        Ship new_ship = create_ship(i+1, (rand()%3)+1, 5, side);
+        Ship new_ship = create_ship(id_counter, (rand()%3)+1, 5, side);
         if (side == 0) {
             insert_ship(&left_ships, new_ship);
         } else {
             insert_ship(&right_ships, new_ship);
-        }
+        }/*
+    for (int i = 0; i < 6; i++) {
+        Ship new_ship = create_random_ship();
+        if (new_ship.side == 0) {
+            insert_ship(&left_ships, new_ship);
+        } else {
+            insert_ship(&right_ships, new_ship);
+        }*/
     }
-
+ 
     // Iniciar el paso de barcos por el canal
     start_canal(&canal_config, &left_ships, &right_ships, renderer);
 
