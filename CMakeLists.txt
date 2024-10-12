@@ -23,4 +23,11 @@ add_executable(SchedulingShips
 # Include directories (for headers)
 target_include_directories(SchedulingShips PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
+#Find the SDL2 package
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+# Link the SDL2 library to the project
+target_link_libraries(SchedulingShips ${SDL2_LIBRARIES})
+
 

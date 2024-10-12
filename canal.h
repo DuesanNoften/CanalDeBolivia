@@ -1,6 +1,7 @@
 #ifndef CANAL_H
 #define CANAL_H
 
+#include <SDL2/SDL.h>
 #include "Scheduling/scheduling.h"
 #include "CEthreads/CEthread.h"
 
@@ -15,6 +16,6 @@ typedef struct {
 } CanalConfig;
 
 // Prototipo de la función para iniciar el canal
-void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships);
+void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships, SDL_Renderer *renderer);
 
 #endif // CANAL_H
