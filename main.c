@@ -70,12 +70,8 @@ void insert_ship(Node **head, Ship ship) {
 int main() {
     // Configuración del canal
     CanalConfig canal_config;
-    canal_config.flow_control_method = 0; // 0: Equidad, 1: Letrero, 2: Tico
-    canal_config.canal_length = 100;       // Longitud del canal
-    canal_config.ship_speed = 5;            // Velocidad del barco
-    canal_config.num_ships = 10;            // Cantidad total de barcos
-    canal_config.time_to_switch = 3;        // Tiempo para cambiar el letrero
-    canal_config.W = 3;                      // Parámetro W para el control de flujo
+    setCanalConfigFromFile(&canal_config, "CanalConfig.txt");
+
 
     // Crear listas de barcos
     Node *left_ships = NULL;

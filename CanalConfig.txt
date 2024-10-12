@@ -1,0 +1,6 @@
+flow_control_method=0
+canal_length=100
+ship_speed=5
+num_ships=10
+time_to_switch=3
+W=3
