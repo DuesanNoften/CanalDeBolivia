@@ -42,14 +42,14 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu99 -fdiagnostics-color=always"
+					"fragment" : "-std=gnu99"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia"
+					"path" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
 				}
 			],
 			"language" : "C",
@@ -81,10 +81,6 @@
 	{
 		"commandFragments" : 
 		[
-			{
-				"fragment" : "-g",
-				"role" : "flags"
-			},
 			{
 				"fragment" : "",
 				"role" : "flags"

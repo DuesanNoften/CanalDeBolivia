@@ -12,7 +12,8 @@ typedef struct {
     int flow_control_method;  // Método de control de flujo (0: Equidad, 1: Letrero, 2: Tico)
     int canal_length;         // Longitud del canal
     int ship_speed;           // Velocidad del barco
-    int num_ships;            // Cantidad de barcos en las colas
+    int lnum_ships;            // Cantidad de barcos izquierda
+    int rnum_ships;            // Cantidad de barcos derecha
     int time_to_switch;       // Tiempo para cambiar el letrero (en caso de usar Letrero)
     int W;
     int scheduling_type;                    // Parámetro W (en caso de usar Equidad)

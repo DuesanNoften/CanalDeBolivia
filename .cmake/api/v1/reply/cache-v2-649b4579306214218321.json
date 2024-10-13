@@ -43,7 +43,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "Debug"
+			"value" : ""
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia"
+			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -91,19 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "2"
-		},
-		{
-			"name" : "CMAKE_COLOR_DIAGNOSTICS",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Enable colored diagnostics throughout."
-				}
-			],
-			"type" : "BOOL",
-			"value" : "ON"
+			"value" : "3"
 		},
 		{
 			"name" : "CMAKE_COLOR_MAKEFILE",
@@ -170,7 +158,7 @@
 					"value" : "C compiler"
 				}
 			],
-			"type" : "STRING",
+			"type" : "FILEPATH",
 			"value" : "/usr/bin/cc"
 		},
 		{
@@ -187,7 +175,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/gcc-ar"
+			"value" : "/usr/bin/gcc-ar-13"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_RANLIB",
@@ -203,7 +191,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/gcc-ranlib"
+			"value" : "/usr/bin/gcc-ranlib-13"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -300,18 +288,6 @@
 			],
 			"type" : "FILEPATH",
 			"value" : "CMAKE_DLLTOOL-NOTFOUND"
-		},
-		{
-			"name" : "CMAKE_EDIT_COMMAND",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Path to cache edit program executable."
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "/usr/bin/ccmake"
 		},
 		{
 			"name" : "CMAKE_EXECUTABLE_FORMAT",
@@ -443,7 +419,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia/CMakeFiles/pkgRedirects"
+			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -503,7 +479,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia"
+			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -527,7 +503,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "0"
+			"value" : "1"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -791,7 +767,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/share/cmake"
+			"value" : "/usr/share/cmake-3.28"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1055,7 +1031,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia"
+			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
 		},
 		{
 			"name" : "SchedulingShips_IS_TOP_LEVEL",
@@ -1079,7 +1055,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia"
+			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

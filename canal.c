@@ -145,8 +145,10 @@ void setCanalConfigFromFile(CanalConfig *config, const char *filename) {
                 config->canal_length = atoi(value);
             } else if (strcmp(key, "ship_speed") == 0) {
                 config->ship_speed = atoi(value);
-            } else if (strcmp(key, "num_ships") == 0) {
-                config->num_ships = atoi(value);
+            } else if (strcmp(key, "lnum_ships") == 0) {
+                config->lnum_ships = atoi(value);
+            } else if (strcmp(key, "rnum_ships") == 0) {
+                config->rnum_ships = atoi(value);
             } else if (strcmp(key, "time_to_switch") == 0) {
                 config->time_to_switch = atoi(value);
             } else if (strcmp(key, "W") == 0) {
