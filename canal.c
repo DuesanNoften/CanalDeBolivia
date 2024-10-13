@@ -14,35 +14,36 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
         int right_count = 0;
         printf("Comenzando el paso de barcos por el canal:\n");
 
-    while (*left_ships || *right_ships) {
-        // Pasar barcos del lado izquierdo
-        left_count = 0;
-        while (*left_ships && left_count < w) {
-            Ship *ship = &(*left_ships)->ship;
+        while (*left_ships || *right_ships) {
+            // Pasar barcos del lado izquierdo
+            left_count = 0;
+            while (*left_ships && left_count < w) {
+                Ship *ship = &(*left_ships)->ship;
 
-            // Ejecutar la función de rutina asignada al barco (hilo)
-            ship->thread.start_routine((void *)ship);
+                // Ejecutar la función de rutina asignada al barco (hilo)
+                ship->thread.start_routine((void *)ship);
 
-            // Eliminar el nodo del barco de la lista
-            Node *temp = *left_ships;
-            *left_ships = (*left_ships)->next;
-            free(temp);
-            left_count++;
-        }
+                // Eliminar el nodo del barco de la lista
+                Node *temp = *left_ships;
+                *left_ships = (*left_ships)->next;
+                free(temp);
+                left_count++;
+            }
 
-        // Pasar barcos del lado derecho
-        right_count = 0;
-        while (*right_ships && right_count < w) {
-            Ship *ship = &(*right_ships)->ship;
+            // Pasar barcos del lado derecho
+            right_count = 0;
+            while (*right_ships && right_count < w) {
+                Ship *ship = &(*right_ships)->ship;
 
-            // Ejecutar la función de rutina asignada al barco (hilo)
-            ship->thread.start_routine((void *)ship);
+                // Ejecutar la función de rutina asignada al barco (hilo)
+                ship->thread.start_routine((void *)ship);
 
-            // Eliminar el nodo del barco de la lista
-            Node *temp = *right_ships;
-            *right_ships = (*right_ships)->next;
-            free(temp);
-            right_count++;
+                // Eliminar el nodo del barco de la lista
+                Node *temp = *right_ships;
+                *right_ships = (*right_ships)->next;
+                free(temp);
+                right_count++;
+            }
         }
     }
     else if(method==1){
