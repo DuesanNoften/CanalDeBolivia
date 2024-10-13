@@ -77,28 +77,31 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
         }
     }
     else if (method == 2) {
-        printf("Alternando barco por barco.\n");
+        // Inicializar la semilla para números aleatorios
+        srand(time(NULL));
 
-        int left_turn = 1;
         while (*left_ships || *right_ships) {
-            if (left_turn && *left_ships) {
+            // Elegir aleatoriamente el próximo lado: 0 = derecho, 1 = izquierdo
+            int random_side = rand() % 2;
+
+            if (random_side == 1 && *left_ships) {  // Enviar desde el lado izquierdo
                 Ship *ship = &(*left_ships)->ship;
                 ship->thread.start_routine((void *)ship);
 
                 Node *temp = *left_ships;
                 *left_ships = (*left_ships)->next;
                 free(temp);
+                printf("Barco enviado desde el lado izquierdo.\n");
             }
-            else if (!left_turn && *right_ships) {
+            else if (*right_ships) {  // Enviar desde el lado derecho
                 Ship *ship = &(*right_ships)->ship;
                 ship->thread.start_routine((void *)ship);
 
                 Node *temp = *right_ships;
                 *right_ships = (*right_ships)->next;
                 free(temp);
+                printf("Barco enviado desde el lado derecho.\n");
             }
-
-            left_turn = !left_turn;  // Alternar el turno
         }
     }
 

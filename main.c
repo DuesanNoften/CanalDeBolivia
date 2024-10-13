@@ -133,18 +133,34 @@ int main() {
     }
 
     //Calendarizacion
-    printf("Lista de barcos inicial:\n");
+    printf("Lista de barcos en la izquierda inicial:\n");
     Node *temp = left_ships;
     while (temp != NULL) {
-        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n", 
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n",
                temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max);
         temp = temp->next;
     }
 
+    printf("Lista de barcos en la derecha inicial:\n");
+    Node *temp2 = right_ships;
+    while (temp2 != NULL) {
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n",
+               temp2->ship.id, temp2->ship.priority, temp2->ship.time, temp2->ship.real_time_max);
+        temp2 = temp2->next;
+    }
+
     schedule_ships(&canal_config,&left_ships, &right_ships);
 
-    printf("\nLista de barcos despues de aplicar el algoritmo:\n");
+    printf("\nLista de barcos en la izquierda despues de aplicar el algoritmo:\n");
     temp = left_ships;
+    while (temp != NULL) {
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n",
+               temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max);
+        temp = temp->next;
+    }
+
+    printf("\nLista de barcos en la derecha despues de aplicar el algoritmo:\n");
+    temp = right_ships;
     while (temp != NULL) {
         printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n", 
                temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max);
