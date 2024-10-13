@@ -1,0 +1,62 @@
+[
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/CEthreads/CEmutex_destroy.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEmutex_destroy.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEmutex_destroy.c",
+  "output": "CMakeFiles/SchedulingShips.dir/CEthreads/CEmutex_destroy.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/CEthreads/CEmutex_init.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEmutex_init.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEmutex_init.c",
+  "output": "CMakeFiles/SchedulingShips.dir/CEthreads/CEmutex_init.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/CEthreads/CEmutex_unlock.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEmutex_unlock.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEmutex_unlock.c",
+  "output": "CMakeFiles/SchedulingShips.dir/CEthreads/CEmutex_unlock.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/CEthreads/CEmutex_lock.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEmutex_lock.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEmutex_lock.c",
+  "output": "CMakeFiles/SchedulingShips.dir/CEthreads/CEmutex_lock.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/CEthreads/CEthread_create.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEthread_create.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEthread_create.c",
+  "output": "CMakeFiles/SchedulingShips.dir/CEthreads/CEthread_create.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/CEthreads/CEthread_end.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEthread_end.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEthread_end.c",
+  "output": "CMakeFiles/SchedulingShips.dir/CEthreads/CEthread_end.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/CEthreads/CEthread_join.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEthread_join.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CEthreads/CEthread_join.c",
+  "output": "CMakeFiles/SchedulingShips.dir/CEthreads/CEthread_join.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/Scheduling/scheduling.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/Scheduling/scheduling.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/Scheduling/scheduling.c",
+  "output": "CMakeFiles/SchedulingShips.dir/Scheduling/scheduling.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/canal.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/canal.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/canal.c",
+  "output": "CMakeFiles/SchedulingShips.dir/canal.c.o"
+},
+{
+  "directory": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/build",
+  "command": "/usr/bin/c89-gcc  -I/home/kevin/Escritorio/Proyectos/CanalDeBolivia -g -std=gnu99 -o CMakeFiles/SchedulingShips.dir/main.c.o -c /home/kevin/Escritorio/Proyectos/CanalDeBolivia/main.c",
+  "file": "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/main.c",
+  "output": "CMakeFiles/SchedulingShips.dir/main.c.o"
+}
+]
