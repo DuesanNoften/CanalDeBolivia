@@ -4,3 +4,4 @@ ship_speed=5
 num_ships=10
 time_to_switch=3
 W=3
+scheduling_type=3

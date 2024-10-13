@@ -11,10 +11,12 @@ typedef struct {
     int ship_speed;           // Velocidad del barco
     int num_ships;            // Cantidad de barcos en las colas
     int time_to_switch;       // Tiempo para cambiar el letrero (en caso de usar Letrero)
-    int W;                    // Parámetro W (en caso de usar Equidad)
+    int W;
+    int scheduling_type;                    // Parámetro W (en caso de usar Equidad)
 } CanalConfig;
 
 // Prototipo de la función para iniciar el canal
 void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships);
+void setCanalConfigFromFile(CanalConfig *config, const char *filename);
 
 #endif // CANAL_H

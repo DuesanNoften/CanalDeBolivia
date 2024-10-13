@@ -10,11 +10,10 @@ int process_ship_thread(void *arg) {
     Ship *ship = (Ship *)arg;
 
     printf("El hilo barcoID: %d comenzo\n", ship->id);
-
-    CEmutex_lock(&ship->mutex);
-    sleep(ship->time);  // Simula el tiempo que toma procesar el barco
+    //CEmutex_lock(&ship->mutex);
+    sleep(ship->time); 
     printf("El hilo barcoID: %d termino.\n", ship->id);
-    CEmutex_unlock(&ship->mutex);
+    //CEmutex_unlock(&ship->mutex);
 
     return 0;
 }
@@ -67,6 +66,47 @@ void insert_ship(Node **head, Ship ship) {
     }
 }
 
+void schedule_ships(CanalConfig *canal_config, Node **left_ships, Node **right_ships) {
+    int scheduling_type = canal_config->scheduling_type;
+
+    switch (scheduling_type) {
+        case 1:  // Planificación por prioridad
+            printf("\nProbando Prioridad:\n");
+            priority_scheduling(left_ships);  
+            priority_scheduling(right_ships);
+            break;
+
+        case 2:  // Planificación Round-Robin
+            printf("\nProbando Round Robin:\n");
+            round_robin(left_ships, 2);  
+            round_robin(right_ships, 2);  
+            break;
+
+        case 3:  // Planificación SJF (Shortest Job First)
+            printf("\nProbando SJF (Shortest Job First):\n");
+            sjf_scheduling(left_ships);
+            sjf_scheduling(right_ships);
+            break;
+
+        case 4:  // Planificación FCFS (First Come First Serve)
+            printf("\nProbando FCFS (First Come First Serve):\n");
+            fcfs_scheduling(left_ships);
+            fcfs_scheduling(right_ships);
+            break;
+
+        case 5:  // Planificación para tiempo real
+            printf("\nProbando Planificación en Tiempo Real:\n");
+            real_time_scheduling(left_ships);
+            real_time_scheduling(right_ships);
+            break;
+
+        default:  // Caso por defecto si no se reconoce el tipo de planificación
+            printf("Error: Tipo de planificación no reconocido.\n");
+            break;
+    }
+}
+
+
 int main() {
     // Configuración del canal
     CanalConfig canal_config;
@@ -80,14 +120,33 @@ int main() {
     // Crear algunos barcos y añadirlos a las listas
     for (int i = 0; i < 5; i++) {
         //Ship ship = create_ship(i + 1, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 1, 1, 5); 
+        Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1); 
         insert_ship(&left_ships, ship);
     }
 
     for (int i = 0; i < 5; i++) {
         //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 6, 1, 5); 
+        Ship ship = create_ship(i + 6, rand() % 5 + 1, rand() % 5 + 1); 
         insert_ship(&right_ships, ship);
+    }
+
+    //Calendarizacion
+    printf("Lista de barcos inicial:\n");
+    Node *temp = left_ships;
+    while (temp != NULL) {
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n", 
+               temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max);
+        temp = temp->next;
+    }
+
+    schedule_ships(&canal_config,&left_ships, &right_ships);
+
+    printf("\nLista de barcos despues de aplicar el algoritmo:\n");
+    temp = left_ships;
+    while (temp != NULL) {
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n", 
+               temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max);
+        temp = temp->next;
     }
 
     // Iniciar el paso de barcos por el canal
