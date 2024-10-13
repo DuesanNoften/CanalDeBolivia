@@ -1,4 +1,4 @@
-flow_control_method=0
+flow_control_method=1
 canal_length=100
 ship_speed=5
 num_ships=10

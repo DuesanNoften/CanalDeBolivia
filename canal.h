@@ -17,4 +17,9 @@ typedef struct {
 // Prototipo de la función para iniciar el canal
 void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships);
 
+// Declaración de la función para reconocer si el string es un entero positivo
+int is_positive_integer(const char str);
+
+// Declaración de la función para establecer la configuración del canal desde un archivo
+void setCanalConfigFromFile(CanalConfigconfig, const char *filename);
 #endif // CANAL_H
