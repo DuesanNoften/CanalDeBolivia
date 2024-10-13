@@ -46,6 +46,17 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
     printf("Todos los barcos han pasado por el canal.\n");
 }
 
+// Funcion para reconocer si el string es un entero positivo
+int is_positive_integer(const char *str) {
+    if (*str == '\0') return 0;
+    while (*str) {
+        if (!isdigit(*str)) return 0;
+        str++;
+    }
+    return 1;
+}
+
+// Funcion para setear la configuracion del canal desde la linea de comandos
 void setCanalConfigFromFile(CanalConfig *config, const char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -59,8 +70,17 @@ void setCanalConfigFromFile(CanalConfig *config, const char *filename) {
         char *value = strtok(NULL, "\n");
 
         if (key && value) {
+            if (!is_positive_integer(value)) {
+                printf("El valor para %s no es un entero positivo. Se establece en 0.\n", key);
+                value = "0";
+            }
+
             if (strcmp(key, "flow_control_method") == 0) {
                 config->flow_control_method = atoi(value);
+                if (config->flow_control_method < 0 || config->flow_control_method > 2) {
+                    printf("El valor para flow_control_method no es válido. Se establece en 0.\n");
+                    config->flow_control_method = 0;
+                }
             } else if (strcmp(key, "canal_length") == 0) {
                 config->canal_length = atoi(value);
             } else if (strcmp(key, "ship_speed") == 0) {
