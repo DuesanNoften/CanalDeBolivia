@@ -6,6 +6,7 @@
 #include <ctype.h>
 
 
+
 // Estructura que representa la configuración del canal
 typedef struct {
     int flow_control_method;  // Método de control de flujo (0: Equidad, 1: Letrero, 2: Tico)
@@ -24,4 +25,11 @@ void setCanalConfigFromFile(CanalConfig *config, const char *filename);
 
 // Declaración de la función para reconocer si el string es un entero positivo
 int is_positive_integer(const char *str);
+
+typedef struct {
+    int duration;    // Duration of the timer in seconds
+    int stopped;     // Status of the timer: 1 if stopped, 0 otherwise
+} TimerData;
+
+void *timer_thread(void *arg);
 #endif // CANAL_H

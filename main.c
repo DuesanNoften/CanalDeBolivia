@@ -118,13 +118,13 @@ int main() {
     Node *right_ships = NULL;
 
     // Crear algunos barcos y añadirlos a las listas
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < canal_config.num_ships/2; i++) {
         //Ship ship = create_ship(i + 1, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
         Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1); 
         insert_ship(&left_ships, ship);
     }
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < canal_config.num_ships/2; i++) {
         //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
         Ship ship = create_ship(i + 6, rand() % 5 + 1, rand() % 5 + 1); 
         insert_ship(&right_ships, ship);

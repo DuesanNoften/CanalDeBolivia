@@ -4,14 +4,15 @@
 #include <string.h>
 #include <ctype.h>
 #include "canal.h"
+#include <time.h>
 
-// Función principal del canal
+
 void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
     int method = config->flow_control_method;
-    if(method==0){
-        int w = config->W; // Número de barcos a pasar en cada dirección
-        int left_count = 0;
-        int right_count = 0;
+    if (method == 0) {
+        int w = config->W;  // Número de barcos a pasar en cada dirección
+        int left_count, right_count;
+
         printf("Comenzando el paso de barcos por el canal:\n");
 
         while (*left_ships || *right_ships) {
@@ -19,11 +20,8 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             left_count = 0;
             while (*left_ships && left_count < w) {
                 Ship *ship = &(*left_ships)->ship;
-
-                // Ejecutar la función de rutina asignada al barco (hilo)
                 ship->thread.start_routine((void *)ship);
 
-                // Eliminar el nodo del barco de la lista
                 Node *temp = *left_ships;
                 *left_ships = (*left_ships)->next;
                 free(temp);
@@ -34,11 +32,8 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             right_count = 0;
             while (*right_ships && right_count < w) {
                 Ship *ship = &(*right_ships)->ship;
-
-                // Ejecutar la función de rutina asignada al barco (hilo)
                 ship->thread.start_routine((void *)ship);
 
-                // Eliminar el nodo del barco de la lista
                 Node *temp = *right_ships;
                 *right_ships = (*right_ships)->next;
                 free(temp);
@@ -46,36 +41,70 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             }
         }
     }
-    else if(method==1){
-        int left_turn = 1; // Variable para alternar entre left_ships y right_ships
+    else if (method == 1) {  // Enviar barcos por 20 segundos de cada lado
+        printf("Comenzando el paso alternado de barcos por tiempo:\n");
+
+        int left_turn = 1;  // Variable para alternar entre lados
+        time_t start_time;
 
         while (*left_ships || *right_ships) {
+            // Registrar el tiempo de inicio del turno actual
+            start_time = time(NULL);
+
             if (left_turn) {
-                // Pasar barcos del lado izquierdo
-                while (*left_ships) {
-                    Ship ship = (*left_ships)->ship;
-                    process_ship(&ship);
+                printf("Turno del lado izquierdo.\n");
+                while (*left_ships && time(NULL) - start_time < config->time_to_switch) {
+                    Ship *ship = &(*left_ships)->ship;
+                    ship->thread.start_routine((void *)ship);
+
                     Node *temp = *left_ships;
                     *left_ships = (*left_ships)->next;
                     free(temp);
                 }
             } else {
-                // Pasar barcos del lado derecho
-                while (*right_ships) {
-                    Ship ship = (*right_ships)->ship;
-                    process_ship(&ship);
+                printf("Turno del lado derecho.\n");
+                while (*right_ships && time(NULL) - config->time_to_switch) {
+                    Ship *ship = &(*right_ships)->ship;
+                    ship->thread.start_routine((void *)ship);
+
                     Node *temp = *right_ships;
                     *right_ships = (*right_ships)->next;
                     free(temp);
                 }
             }
 
-            left_turn = !left_turn; // Alternar entre left_ships y right_ships
-            sleep(5); // Pausar la ejecución por 5 segundos
+            left_turn = !left_turn;  // Alternar el turno
         }
     }
+    else if (method == 2) {
+        printf("Alternando barco por barco.\n");
+
+        int left_turn = 1;
+        while (*left_ships || *right_ships) {
+            if (left_turn && *left_ships) {
+                Ship *ship = &(*left_ships)->ship;
+                ship->thread.start_routine((void *)ship);
+
+                Node *temp = *left_ships;
+                *left_ships = (*left_ships)->next;
+                free(temp);
+            }
+            else if (!left_turn && *right_ships) {
+                Ship *ship = &(*right_ships)->ship;
+                ship->thread.start_routine((void *)ship);
+
+                Node *temp = *right_ships;
+                *right_ships = (*right_ships)->next;
+                free(temp);
+            }
+
+            left_turn = !left_turn;  // Alternar el turno
+        }
+    }
+
     printf("Todos los barcos han pasado por el canal.\n");
 }
+
 
 // Funcion para reconocer si el string es un entero positivo
 int is_positive_integer(const char *str) {
@@ -130,4 +159,5 @@ void setCanalConfigFromFile(CanalConfig *config, const char *filename) {
 
     fclose(file);
 }
+
 
