@@ -41,7 +41,6 @@ Ship create_ship(int id, int priority, int time, int side) {
     ship.remaining_time = time; // Inicialmente, el tiempo restante es igual al tiempo de procesamiento
     ship.real_time_max = time + 5; // Asumir un tiempo máximo para pasar por el canal
     ship.side = side;
-    id_counter += 1;
     if(side == 0){
         ship.x = 30;
     } else {
@@ -121,21 +120,15 @@ int main() {
     Node *left_ships = NULL;
     Node *right_ships = NULL;
 
-    for (int i = 0; i < 6; i++) {
-        int side = rand() % 2;  // Generar un valor aleatorio para side (0 o 1)
-        Ship new_ship = create_ship(id_counter, (rand()%3)+1, 5, side);
-        if (side == 0) {
-            insert_ship(&left_ships, new_ship);
-        } else {
-            insert_ship(&right_ships, new_ship);
-        }/*
-    for (int i = 0; i < 6; i++) {
+    //generamos 6 barcos aleatorios como prueba
+    for (int i = 1; i < 7; i++) {
         Ship new_ship = create_random_ship();
         if (new_ship.side == 0) {
             insert_ship(&left_ships, new_ship);
         } else {
             insert_ship(&right_ships, new_ship);
-        }*/
+        }
+        id_counter++;
     }
  
     // Iniciar el paso de barcos por el canal
