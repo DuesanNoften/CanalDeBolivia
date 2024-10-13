@@ -15,7 +15,9 @@
 int initSDL(SDL_Window **window, SDL_Renderer **renderer);
 void closeSDL(SDL_Window *window, SDL_Renderer *renderer);
 
-int id_counter = 0;
+int id_counter = 1;
+//Prototipo drawShip
+void drawShip(SDL_Renderer *renderer, Ship ship);
 
 // Prototipo de la función de procesamiento del barco
 int process_ship_thread(void *arg) {
@@ -33,7 +35,7 @@ int process_ship_thread(void *arg) {
 
 
 // Función para crear un barco y asignarle valores
-Ship create_ship(int id, int priority, int time, int side) {
+Ship create_ship(int id, int priority, int time, int side, SDL_Renderer *renderer) {
     Ship ship;
     ship.id = id;
     ship.priority = priority;
@@ -46,7 +48,7 @@ Ship create_ship(int id, int priority, int time, int side) {
     } else {
         ship.x = 720;
     }
-    ship.y = id *30;
+    ship.y = 275 + rand() % 31;
 
     // Inicializar el mutex del barco
     if (CEmutex_init(&ship.mutex) != 0) {
@@ -64,18 +66,21 @@ Ship create_ship(int id, int priority, int time, int side) {
         printf("Error al crear el hilo para el barco con ID: %d\n", ship.id);
         exit(EXIT_FAILURE);
     }
+    //dibujamos el barco y actualizamos
+    //drawShip(renderer, ship);
+    //SDL_RenderPresent(renderer);
 
     printf("BarcoID: %d creado con hilo, prioridad = %d, lado = %d.\n", ship.id, ship.priority, ship.side);
-
+    
     return ship;
 }
 //Ship create_ship(int id, int priority, int time, int side)
-Ship create_random_ship(){
+Ship create_random_ship(SDL_Renderer *renderer){
     int spriority = (rand()%3)+1;
     int sside = rand()%2;
-    return create_ship(id_counter, spriority, 5, sside);
+    return create_ship(id_counter, spriority, 5, sside, renderer);
 }
-
+//función insertar barco en lista
 void insert_ship(Node **head, Ship ship) {
     
     Node *new_node = (Node*)malloc(sizeof(Node));
@@ -93,6 +98,15 @@ void insert_ship(Node **head, Ship ship) {
     }
     //Reorg priority list after new ship by priority -> type of ship
     priority_scheduling(head);
+}
+
+void render_ships(Node *ship_list, SDL_Renderer *renderer){
+    Node *current = ship_list;
+    while(current != NULL){
+        drawShip(renderer, current->ship);
+        current->next;
+    }
+    SDL_RenderPresent(renderer);
 }
 
 int main() {
@@ -120,17 +134,24 @@ int main() {
     Node *left_ships = NULL;
     Node *right_ships = NULL;
 
+    //dibujar canal
+    drawCanal(renderer);
+    SDL_RenderPresent(renderer);
+
     //generamos 6 barcos aleatorios como prueba
     for (int i = 1; i < 7; i++) {
-        Ship new_ship = create_random_ship();
+        Ship new_ship = create_random_ship(renderer);
         if (new_ship.side == 0) {
             insert_ship(&left_ships, new_ship);
         } else {
             insert_ship(&right_ships, new_ship);
         }
         id_counter++;
+
+        //render_ships(left_ships, renderer);
+        //render_ships(right_ships, renderer);
     }
- 
+
     // Iniciar el paso de barcos por el canal
     start_canal(&canal_config, &left_ships, &right_ships, renderer);
 

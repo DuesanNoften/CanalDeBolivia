@@ -5,9 +5,12 @@
 #include <SDL2/SDL.h>
 #include "canal.h"
 
-void drawShip(SDL_Renderer* renderer, Ship* ship) {
-    SDL_Rect shipRect = { ship->x, ship->y, 50, 20 };
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
+void drawShip(SDL_Renderer* renderer, Ship* ship);
+
+void drawShip(SDL_Renderer* renderer, Ship* ship) {
     // Change the color between ship types
     if (ship->priority == 3) {
         SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);  // Red for the normal ones
@@ -16,7 +19,10 @@ void drawShip(SDL_Renderer* renderer, Ship* ship) {
     } else {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);  // Blue for patrol ones
     }
+    //Draw the ship rectangle and update window
+    SDL_Rect shipRect = { ship->x, ship->y, 50, 20 };
     SDL_RenderFillRect(renderer, &shipRect);
+    SDL_RenderPresent(renderer);
 }
 
 // Función para simular el paso de un barco
@@ -62,4 +68,11 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships, SDL
     }
 
     printf("Todos los barcos han pasado por el canal.\n");
+}
+
+// Draw the canal
+void drawCanal(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);  // White for the canal
+    SDL_Rect fillRect = {85, (SCREEN_HEIGHT / 2)-30, (SCREEN_WIDTH/2)+230, 60}; 
+    SDL_RenderFillRect(renderer, &fillRect);
 }

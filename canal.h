@@ -17,5 +17,6 @@ typedef struct {
 
 // Prototipo de la función para iniciar el canal
 void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships, SDL_Renderer *renderer);
+void drawCanal(SDL_Renderer* renderer);
 
 #endif // CANAL_H
