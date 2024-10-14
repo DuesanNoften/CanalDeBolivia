@@ -45,43 +45,6 @@ void render_ships(SDL_Renderer *renderer, Node *left_ships, Node *right_ships) {
     SDL_RenderPresent(renderer);  // Actualizar la pantalla
 }*/
 // Move the ship (on a thread)
-void* moveShip(void* arg) {
-    Ship* ship = (Ship*) arg;
-
-    while (1) {
-
-        // Move the ship through the canal (one at a time)
-        if (ship->side == 0) {  // Left to right
-            while (ship->x < WINDOW_WIDTH / 2) {
-                ship->x += ship->type;
-                usleep(10000);  // Control the speed
-            }
-        } else {  // Right to left
-            while (ship->x > WINDOW_WIDTH / 2) {
-                ship->x -= ship->type;
-                usleep(10000);  // Control the speed
-            }
-        }
-        printf("%d type ship is crossing in direction %d.\n", ship->type, ship->side);
-
-        // Continue moving the ship out of the canal
-        if (ship->side == 0) {  // Left to right
-            while (ship->x < WINDOW_WIDTH) {
-                ship->x += ship->type;
-                usleep(10000);  // Control the speed
-            }
-        } else {  // Right to left
-            while (ship->x > -50) {  // Move out of the screen on the left
-                ship->x -= ship->type;
-                usleep(10000);  // Control the speed
-            }
-        }
-
-        break;  // The ship has finished crossing the canal
-    }
-
-    return NULL;
-}
 
 void drawShip(SDL_Renderer* renderer, Ship* ship);
 
@@ -114,8 +77,7 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             left_count = 0;
             while (*left_ships && left_count < w) {
                 Ship *ship = &(*left_ships)->ship;
-                ship->thread.start_routine((void *)ship);
-                moveShip(ship);
+                
                 Node *temp = *left_ships;
                 *left_ships = (*left_ships)->next;
                 free(temp);
@@ -127,7 +89,7 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             while (*right_ships && right_count < w) {
                 Ship *ship = &(*right_ships)->ship;
                 ship->thread.start_routine((void *)ship);
-
+                
                 Node *temp = *right_ships;
                 *right_ships = (*right_ships)->next;
                 free(temp);
@@ -150,7 +112,7 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
                 while (*left_ships && time(NULL) - start_time < config->time_to_switch) {
                     Ship *ship = &(*left_ships)->ship;
                     ship->thread.start_routine((void *)ship);
-
+                    
                     Node *temp = *left_ships;
                     *left_ships = (*left_ships)->next;
                     free(temp);
@@ -160,7 +122,7 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
                 while (*right_ships && time(NULL) - config->time_to_switch) {
                     Ship *ship = &(*right_ships)->ship;
                     ship->thread.start_routine((void *)ship);
-
+                    
                     Node *temp = *right_ships;
                     *right_ships = (*right_ships)->next;
                     free(temp);
@@ -181,7 +143,7 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             if (random_side == 1 && *left_ships) {  // Enviar desde el lado izquierdo
                 Ship *ship = &(*left_ships)->ship;
                 ship->thread.start_routine((void *)ship);
-
+                
                 Node *temp = *left_ships;
                 *left_ships = (*left_ships)->next;
                 free(temp);
@@ -190,7 +152,7 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             else if (*right_ships) {  // Enviar desde el lado derecho
                 Ship *ship = &(*right_ships)->ship;
                 ship->thread.start_routine((void *)ship);
-
+                
                 Node *temp = *right_ships;
                 *right_ships = (*right_ships)->next;
                 free(temp);

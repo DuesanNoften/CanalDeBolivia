@@ -5,6 +5,8 @@
 #include "CEthreads/CEthread.h"
 #include "canal.h"
 #include <SDL2/SDL.h> 
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 
 // Prototipo de la función de procesamiento del barco
 int process_ship_thread(void *arg) {
@@ -12,6 +14,37 @@ int process_ship_thread(void *arg) {
 
     printf("El hilo barcoID: %d comenzo\n", ship->id);
     //CEmutex_lock(&ship->mutex);
+    while (1) {
+
+        // Move the ship through the canal (one at a time)
+        if (ship->side == 0) {  // Left to right
+            while (ship->x < WINDOW_WIDTH / 2) {
+                ship->x += ship->type;
+                usleep(10000);  // Control the speed
+            }
+        } else {  // Right to left
+            while (ship->x > WINDOW_WIDTH / 2) {
+                ship->x -= ship->type;
+                usleep(10000);  // Control the speed
+            }
+        }
+        printf("%d type ship is crossing in direction %d.\n", ship->type, ship->side);
+
+        // Continue moving the ship out of the canal
+        if (ship->side == 0) {  // Left to right
+            while (ship->x < WINDOW_WIDTH) {
+                ship->x += ship->type;
+                usleep(10000);  // Control the speed
+            }
+        } else {  // Right to left
+            while (ship->x > -50) {  // Move out of the screen on the left
+                ship->x -= ship->type;
+                usleep(10000);  // Control the speed
+            }
+        }
+
+        break;  // The ship has finished crossing the canal
+    }
     sleep(ship->time); 
     printf("El hilo barcoID: %d termino.\n", ship->id);
     //CEmutex_unlock(&ship->mutex);
