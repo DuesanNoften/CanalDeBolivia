@@ -7,7 +7,8 @@
 typedef struct {
     int id;
     int priority;
-    int time;  
+    int time; 
+    int type; 
     int remaining_time;  
     int real_time_max;  
     CEthreads_t thread;  

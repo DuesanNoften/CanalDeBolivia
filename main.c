@@ -110,7 +110,7 @@ void schedule_ships(CanalConfig *canal_config, Node **left_ships, Node **right_s
 int main() {
     // Configuración del canal
     CanalConfig canal_config;
-    setCanalConfigFromFile(&canal_config, "CanalConfig.txt");
+    setCanalConfigFromFile(&canal_config, "../CanalConfig.txt");
 
 
     // Crear listas de barcos

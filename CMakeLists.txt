@@ -18,7 +18,7 @@ add_executable(SchedulingShips
     Scheduling/scheduling.c
     canal.c
     wifi.c
-    test.c
+    main.c
 )
 
 # Include directories (for headers)

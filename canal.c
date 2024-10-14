@@ -146,18 +146,25 @@ void setCanalConfigFromFile(CanalConfig *config, const char *filename) {
                 }
             } else if (strcmp(key, "canal_length") == 0) {
                 config->canal_length = atoi(value);
+                printf("Valor de canal_length = %d\n", config->canal_length);
             } else if (strcmp(key, "ship_speed") == 0) {
                 config->ship_speed = atoi(value);
+                printf("Valor de ship_speed = %d\n", config->ship_speed);
             } else if (strcmp(key, "lnum_ships") == 0) {
                 config->lnum_ships = atoi(value);
+                printf("Valor de lnum_ships = %d\n", config->lnum_ships);
             } else if (strcmp(key, "rnum_ships") == 0) {
                 config->rnum_ships = atoi(value);
+                printf("Valor de rnum_ships = %d\n", config->rnum_ships);
             } else if (strcmp(key, "time_to_switch") == 0) {
                 config->time_to_switch = atoi(value);
+                printf("Valor de time_to_switch = %d\n", config->time_to_switch);
             } else if (strcmp(key, "W") == 0) {
                 config->W = atoi(value);
+                printf("Valor de W = %d\n", config->W);
             } else if (strcmp(key, "scheduling_type") == 0) {  
                 config->scheduling_type = atoi(value);
+                printf("Valor de scheduling_type = %d\n", config->scheduling_type);
             }
         }
     }
