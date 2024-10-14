@@ -14,6 +14,16 @@
 void cleanup_SDL() {
     SDL_Quit();
 }
+
+void render_ships(SDL_Renderer* renderer, Node* head){
+    Node* current =head;
+    while (current != NULL){
+        drawShip(renderer, &current->ship);
+        current = current->next;
+        SDL_RenderPresent(renderer);
+    }
+    
+}
 /*
 // Renderizar barcos en el canal
 void render_ships(SDL_Renderer *renderer, Node *left_ships, Node *right_ships) {

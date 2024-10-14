@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 #include "Scheduling/scheduling.h"
 #include "CEthreads/CEthread.h"
 #include "canal.h"
@@ -32,12 +33,12 @@ int process_ship_thread(void *arg) {
 
         // Continue moving the ship out of the canal
         if (ship->side == 0) {  // Left to right
-            while (ship->x < WINDOW_WIDTH) {
+            while (ship->x < WINDOW_WIDTH-30) {
                 ship->x += ship->type;
                 usleep(10000);  // Control the speed
             }
         } else {  // Right to left
-            while (ship->x > -50) {  // Move out of the screen on the left
+            while (ship->x > 0) {  // Move out of the screen on the left
                 ship->x -= ship->type;
                 usleep(10000);  // Control the speed
             }
@@ -72,7 +73,7 @@ Ship create_ship(int id, int priority, int time, int side, int type) {
         ship.x = 720;
     }
     //ship.y = 275 + rand()%30;
-    ship.y = id * 30;
+    ship.y = id * 25;
 
     // Inicializar el mutex del barco
     if (CEmutex_init(&ship.mutex) != 0) {
@@ -94,6 +95,21 @@ Ship create_ship(int id, int priority, int time, int side, int type) {
     printf("BarcoID: %d creado con hilo.\n", ship.id);
 
     return ship;
+}
+
+Ship create_random_ship(int id);
+
+Ship create_random_ship(int id) {
+    int priority = rand() % 5+1;
+    int time = rand() % 5+1;
+    int side = rand()%2;
+    int type = rand() % 3 +1;
+    Ship nuevoBarco = create_ship(id, priority, time, side, type);
+
+    printf("Barco tipo %d generado con ID=%d, prioridad=%d, dirección=%d, tiempo=%d.\n", 
+           type, id, priority, side, time);
+
+    return nuevoBarco;
 }
 
 void insert_ship(Node **head, Ship ship, SDL_Renderer *renderer) {
@@ -157,6 +173,8 @@ void schedule_ships(CanalConfig *canal_config, Node **left_ships, Node **right_s
 
 
 int main() {
+
+    srand(clock());
     // Configuración del canal
     CanalConfig canal_config;
     setCanalConfigFromFile(&canal_config, "../CanalConfig.txt");
@@ -185,8 +203,9 @@ int main() {
 
     for (int i = 0; i < canal_config.rnum_ships; i++) {
         //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + ships_created+1, rand() % 5 + 1, rand() % 5 + 1, 1, rand()%3+1); 
+        Ship ship = create_ship(ships_created+1, rand() % 5 + 1, rand() % 5 + 1, 1, rand()%3+1); 
         insert_ship(&right_ships, ship, renderer);
+        ships_created++;
     }
 
     //Calendarizacion
@@ -224,8 +243,90 @@ int main() {
         temp = temp->next;
     }
 
-    // Iniciar el paso de barcos por el canal
-    start_canal(&canal_config, &left_ships, &right_ships);
+    
+
+    int running = 1;
+    SDL_Event e;
+    const int frame_delay = 16;
+    Uint32 frame_start;
+    int frame_time;
+    Ship new_ship;
+
+    while (running){
+        frame_start = SDL_GetTicks();
+
+        while (SDL_PollEvent(&e)){
+            if (e.type == SDL_QUIT){
+                running = 0;
+            }
+            if (e.type == SDL_KEYDOWN){
+                switch (e.key.keysym.sym){
+                    case SDLK_SPACE:
+                        new_ship = create_random_ship(ships_created+1);
+                        drawShip(renderer, &new_ship);
+                        ships_created++;
+                        break;
+                    // Ships left to right
+                    case SDLK_q:  // Patrol left
+                        new_ship = create_ship(ships_created+1, 5, rand()%5, 0, 3);
+                        drawShip(renderer, &new_ship);
+                        ships_created++;  // Type 3 (Patrol), Direction 0 (right to left)
+                        break;
+                    case SDLK_w:  // Fishing left
+                        new_ship = create_ship(ships_created+1, 3, rand()%5, 0, 2);
+                        drawShip(renderer, &new_ship);
+                        schedule_ships(&canal_config,&left_ships, &right_ships);
+                        ships_created++;  // Type 2 (Fishing), Direction 0
+                        break;
+                    case SDLK_e:  // Normal left
+                        new_ship = create_ship(ships_created+1, rand()%2+1, rand()%5, 0, 1);
+                        drawShip(renderer, &new_ship);
+                        ships_created++;  // Type 0 (Normal), Direction 0
+                        break;
+                    
+                    // Ships left to right
+                    case SDLK_i:  // Normal right
+                        new_ship = create_ship(ships_created+1, rand()%2+1, rand()%5, 1, 1);
+                        drawShip(renderer, &new_ship);
+                        ships_created++;  // Type 1 (Normal), Direction 1 (left to right)
+                        break;
+                    case SDLK_o:  // Fishing right
+                        new_ship = create_ship(ships_created+1, 3, rand()%5, 1, 2);
+                        drawShip(renderer, &new_ship);
+                        ships_created++;  // Type 2 (Fishing), Direction 1
+                        break;
+                    case SDLK_p:  // Patrol right
+                        new_ship = create_ship(ships_created+1, 5, rand()%5, 1, 3);
+                        drawShip(renderer, &new_ship);                        
+                        ships_created++;  // Type 3 (Patrol), Direction 1
+                        break;
+                    case SDLK_s:
+                        schedule_ships(&canal_config,&left_ships, &right_ships);
+                        start_canal(&canal_config, &left_ships, &right_ships);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        
+        
+        /*//render_ships(renderer, right_ships);
+
+        while (right_ships != NULL){
+            drawShip(renderer, &right_ships->ship);
+            right_ships = right_ships->next;
+            SDL_RenderPresent(renderer);
+        }*/
+    
+        SDL_RenderPresent(renderer);
+
+        frame_time = SDL_GetTicks() - frame_start;
+        if (frame_delay > frame_time){
+            SDL_Delay(frame_delay - frame_time);
+        }
+
+    }    
 
     // Liberar memoria de las listas de barcos
     Node *current;

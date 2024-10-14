@@ -26,9 +26,9 @@ void setCanalConfigFromFile(CanalConfig *config, const char *filename);
 void drawShip(SDL_Renderer* renderer, Ship* ship);
 
 //Funciones SDL
-void init_SDL();
+//void init_SDL();
 void cleanup_SDL();
-void render_ships(SDL_Renderer *renderer, Node *left_ships, Node *right_ships);
+void render_ships(SDL_Renderer *renderer, Node *head);
 
 // Declaración de la función para reconocer si el string es un entero positivo
 int is_positive_integer(const char *str);
