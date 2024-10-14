@@ -24,12 +24,13 @@ int initSDL(SDL_Window **window, SDL_Renderer **renderer);
 void closeSDL(SDL_Window *window, SDL_Renderer *renderer);
 
 // Función para crear un barco y asignarle valores
-Ship create_ship(int id, int priority, int time, int side) {
+Ship create_ship(int id, int priority, int time, int side, int type) {
     Ship ship;
     ship.id = id;
     ship.priority = priority;
     ship.time = time;
     ship.side = side;
+    ship.type = type;
     ship.remaining_time = time; // Inicialmente, el tiempo restante es igual al tiempo de procesamiento
     ship.real_time_max = time + 5; // Asumir un tiempo máximo para pasar por el canal
     if(side == 0){
@@ -142,14 +143,14 @@ int main() {
     int ships_created = 0;
     for (int i = 0; i < canal_config.lnum_ships; i++) {
         //Ship ship = create_ship(i + 1, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1, 0); 
+        Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1, 0, rand()%3+1); 
         insert_ship(&left_ships, ship, renderer);
         ships_created++;
     }
 
     for (int i = 0; i < canal_config.rnum_ships; i++) {
         //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + ships_created+1, rand() % 5 + 1, rand() % 5 + 1, 1); 
+        Ship ship = create_ship(i + ships_created+1, rand() % 5 + 1, rand() % 5 + 1, 1, rand()%3+1); 
         insert_ship(&right_ships, ship, renderer);
     }
 
@@ -157,16 +158,16 @@ int main() {
     printf("Lista de barcos en la izquierda inicial:\n");
     Node *temp = left_ships;
     while (temp != NULL) {
-        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n",
-               temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max);
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d, tipo=%d\n",
+               temp->ship.id, temp->ship.priority, temp->ship.time, temp->ship.real_time_max, temp->ship.type);
         temp = temp->next;
     }
 
     printf("Lista de barcos en la derecha inicial:\n");
     Node *temp2 = right_ships;
     while (temp2 != NULL) {
-        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d\n",
-               temp2->ship.id, temp2->ship.priority, temp2->ship.time, temp2->ship.real_time_max);
+        printf("Barco ID: %d, Prioridad: %d, Tiempo: %d, Tiempo real máximo: %d, tipo=%d\n",
+               temp2->ship.id, temp2->ship.priority, temp2->ship.time, temp2->ship.real_time_max, temp2->ship.type);
         temp2 = temp2->next;
     }
 

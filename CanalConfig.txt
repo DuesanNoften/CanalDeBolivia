@@ -1,8 +1,8 @@
 flow_control_method=2
 canal_length=100
 ship_speed=5
-lnum_ships=5
-rnum_ships=5
+lnum_ships=7
+rnum_ships=8
 time_to_switch=10
 W=3
 scheduling_type=1

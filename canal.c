@@ -48,9 +48,14 @@ void render_ships(SDL_Renderer *renderer, Node *left_ships, Node *right_ships) {
 void drawShip(SDL_Renderer* renderer, Ship* ship);
 
 void drawShip(SDL_Renderer* renderer, Ship* ship) {
-    
-    // Change the color between ship types-poner un if cuando tengamos el type
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);  // Red for the normal ones
+    // Change the color between ship types
+    if (ship->type == 2) {
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);  // Red for the normal ones
+    } else if (ship->type == 1) {
+        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);  // Green for fishing ones
+    } else {
+        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);  // Blue for patrol ones
+    }
     //Draw the ship rectangle and update window
     SDL_Rect shipRect = { ship->x, ship->y, 50, 20 };
     SDL_RenderFillRect(renderer, &shipRect);
