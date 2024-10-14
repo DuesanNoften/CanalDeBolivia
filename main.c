@@ -33,7 +33,7 @@ int process_ship_thread(void *arg) {
 
         // Continue moving the ship out of the canal
         if (ship->side == 0) {  // Left to right
-            while (ship->x < WINDOW_WIDTH-30) {
+            while (ship->x < WINDOW_WIDTH-50) {
                 ship->x += ship->type;
                 usleep(10000);  // Control the speed
             }
@@ -194,16 +194,29 @@ int main() {
 
     // Crear algunos barcos y añadirlos a las listas
     int ships_created = 0;
+    int prioritys;
     for (int i = 0; i < canal_config.lnum_ships; i++) {
+        int type = rand()%3+1;
+        if(type == 3){
+            prioritys = 1;
+        }else{
+            prioritys = 2;
+        }
         //Ship ship = create_ship(i + 1, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1, 0, rand()%3+1); 
+        Ship ship = create_ship(i + 1, prioritys, rand() % 5 + 1, 0, type); 
         insert_ship(&left_ships, ship, renderer);
         ships_created++;
     }
 
     for (int i = 0; i < canal_config.rnum_ships; i++) {
+        int type = rand()%3+1;
+        if(type == 3){
+            prioritys = 1;
+        }else{
+            prioritys = 2;
+        }
         //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(ships_created+1, rand() % 5 + 1, rand() % 5 + 1, 1, rand()%3+1); 
+        Ship ship = create_ship(ships_created+1, prioritys, rand() % 5 + 1, 1, type); 
         insert_ship(&right_ships, ship, renderer);
         ships_created++;
     }
@@ -274,21 +287,21 @@ int main() {
                         break;
                     // Ships left to right
                     case SDLK_q:  // Patrol left
-                        new_ship = create_ship(ships_created+1, 5, rand()%5, 0, 3);
+                        new_ship = create_ship(ships_created+1, 1, rand()%5, 0, 3);
                         
                         insert_ship(&left_ships, new_ship, renderer);
                         schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 3 (Patrol), Direction 0 (right to left)
                         break;
                     case SDLK_w:  // Fishing left
-                        new_ship = create_ship(ships_created+1, 3, rand()%5, 0, 2);
+                        new_ship = create_ship(ships_created+1, 2, rand()%5, 0, 2);
                         
                         insert_ship(&left_ships, new_ship, renderer);
                         schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 2 (Fishing), Direction 0
                         break;
                     case SDLK_e:  // Normal left
-                        new_ship = create_ship(ships_created+1, rand()%2+1, rand()%5, 0, 1);
+                        new_ship = create_ship(ships_created+1, 2, rand()%5, 0, 1);
                         
                         insert_ship(&left_ships, new_ship, renderer);
                         schedule_ships(&canal_config,&left_ships, &right_ships);
@@ -297,21 +310,21 @@ int main() {
                     
                     // Ships right to left
                     case SDLK_i:  // Normal right
-                        new_ship = create_ship(ships_created+1, rand()%2+1, rand()%5, 1, 1);
+                        new_ship = create_ship(ships_created+1, 2, rand()%5, 1, 1);
                         
                         insert_ship(&right_ships, new_ship, renderer);
                         schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 1 (Normal), Direction 1 (left to right)
                         break;
                     case SDLK_o:  // Fishing right
-                        new_ship = create_ship(ships_created+1, 3, rand()%5, 1, 2);
+                        new_ship = create_ship(ships_created+1, 2, rand()%5, 1, 2);
                         
                         insert_ship(&right_ships, new_ship, renderer);
                         schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 2 (Fishing), Direction 1
                         break;
                     case SDLK_p:  // Patrol right
-                        new_ship = create_ship(ships_created+1, 5, rand()%5, 1, 3);
+                        new_ship = create_ship(ships_created+1, 1, rand()%5, 1, 3);
                         
                         insert_ship(&right_ships, new_ship, renderer);  
                         schedule_ships(&canal_config,&left_ships, &right_ships);                     
