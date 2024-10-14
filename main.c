@@ -263,46 +263,62 @@ int main() {
                 switch (e.key.keysym.sym){
                     case SDLK_SPACE:
                         new_ship = create_random_ship(ships_created+1);
-                        drawShip(renderer, &new_ship);
+                        
+                        if (new_ship.side == 0){
+                            insert_ship(&left_ships, new_ship, renderer);
+                        }else{
+                            insert_ship(&right_ships, new_ship, renderer);
+                        }
+                        schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;
                         break;
                     // Ships left to right
                     case SDLK_q:  // Patrol left
                         new_ship = create_ship(ships_created+1, 5, rand()%5, 0, 3);
-                        drawShip(renderer, &new_ship);
+                        
+                        insert_ship(&left_ships, new_ship, renderer);
+                        schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 3 (Patrol), Direction 0 (right to left)
                         break;
                     case SDLK_w:  // Fishing left
                         new_ship = create_ship(ships_created+1, 3, rand()%5, 0, 2);
-                        drawShip(renderer, &new_ship);
+                        
+                        insert_ship(&left_ships, new_ship, renderer);
                         schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 2 (Fishing), Direction 0
                         break;
                     case SDLK_e:  // Normal left
                         new_ship = create_ship(ships_created+1, rand()%2+1, rand()%5, 0, 1);
-                        drawShip(renderer, &new_ship);
+                        
+                        insert_ship(&left_ships, new_ship, renderer);
+                        schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 0 (Normal), Direction 0
                         break;
                     
-                    // Ships left to right
+                    // Ships right to left
                     case SDLK_i:  // Normal right
                         new_ship = create_ship(ships_created+1, rand()%2+1, rand()%5, 1, 1);
-                        drawShip(renderer, &new_ship);
+                        
+                        insert_ship(&right_ships, new_ship, renderer);
+                        schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 1 (Normal), Direction 1 (left to right)
                         break;
                     case SDLK_o:  // Fishing right
                         new_ship = create_ship(ships_created+1, 3, rand()%5, 1, 2);
-                        drawShip(renderer, &new_ship);
+                        
+                        insert_ship(&right_ships, new_ship, renderer);
+                        schedule_ships(&canal_config,&left_ships, &right_ships);
                         ships_created++;  // Type 2 (Fishing), Direction 1
                         break;
                     case SDLK_p:  // Patrol right
                         new_ship = create_ship(ships_created+1, 5, rand()%5, 1, 3);
-                        drawShip(renderer, &new_ship);                        
+                        
+                        insert_ship(&right_ships, new_ship, renderer);  
+                        schedule_ships(&canal_config,&left_ships, &right_ships);                     
                         ships_created++;  // Type 3 (Patrol), Direction 1
                         break;
                     case SDLK_s:
-                        schedule_ships(&canal_config,&left_ships, &right_ships);
-                        start_canal(&canal_config, &left_ships, &right_ships);
+                        start_canal(&canal_config, &left_ships, &right_ships, renderer);
                         break;
                     default:
                         break;
@@ -310,15 +326,7 @@ int main() {
             }
         }
         
-        
-        /*//render_ships(renderer, right_ships);
-
-        while (right_ships != NULL){
-            drawShip(renderer, &right_ships->ship);
-            right_ships = right_ships->next;
-            SDL_RenderPresent(renderer);
-        }*/
-    
+            
         SDL_RenderPresent(renderer);
 
         frame_time = SDL_GetTicks() - frame_start;

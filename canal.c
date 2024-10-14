@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+
 #include <string.h>
 #include <ctype.h>
 #include "canal.h"
 #include <time.h>
 #include <SDL2/SDL.h> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -14,7 +15,7 @@
 void cleanup_SDL() {
     SDL_Quit();
 }
-
+/*
 void render_ships(SDL_Renderer* renderer, Node* head){
     Node* current =head;
     while (current != NULL){
@@ -24,7 +25,7 @@ void render_ships(SDL_Renderer* renderer, Node* head){
     }
     
 }
-/*
+
 // Renderizar barcos en el canal
 void render_ships(SDL_Renderer *renderer, Node *left_ships, Node *right_ships) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);  // Fondo negro
@@ -57,6 +58,7 @@ void render_ships(SDL_Renderer *renderer, Node *left_ships, Node *right_ships) {
 // Move the ship (on a thread)
 
 void drawShip(SDL_Renderer* renderer, Ship* ship);
+void drawNoShip(SDL_Renderer* renderer, Ship* ship);
 
 void drawShip(SDL_Renderer* renderer, Ship* ship) {
     // Change the color between ship types
@@ -73,7 +75,15 @@ void drawShip(SDL_Renderer* renderer, Ship* ship) {
     SDL_RenderPresent(renderer);
 }
 
-void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
+void drawNoShip(SDL_Renderer* renderer, Ship* ship) {
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);  // Red for the normal ones
+    //Draw the ship rectangle and update window
+    SDL_Rect shipRect = { ship->x, ship->y, 50, 20 };
+    SDL_RenderFillRect(renderer, &shipRect);
+    SDL_RenderPresent(renderer);
+}
+
+void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships, SDL_Renderer* renderer) {
     //Logica paso de barcos
     int method = config->flow_control_method;
     if (method == 0) {
@@ -87,7 +97,9 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             left_count = 0;
             while (*left_ships && left_count < w) {
                 Ship *ship = &(*left_ships)->ship;
-                
+                drawNoShip(renderer, ship);
+                ship->x = 200;
+                drawShip(renderer,ship);
                 Node *temp = *left_ships;
                 *left_ships = (*left_ships)->next;
                 free(temp);
@@ -99,7 +111,9 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             while (*right_ships && right_count < w) {
                 Ship *ship = &(*right_ships)->ship;
                 ship->thread.start_routine((void *)ship);
-                
+                drawNoShip(renderer, ship);
+                ship->x = 500;
+                drawShip(renderer,ship);
                 Node *temp = *right_ships;
                 *right_ships = (*right_ships)->next;
                 free(temp);
@@ -122,7 +136,9 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
                 while (*left_ships && time(NULL) - start_time < config->time_to_switch) {
                     Ship *ship = &(*left_ships)->ship;
                     ship->thread.start_routine((void *)ship);
-                    
+                    drawNoShip(renderer, ship);
+                    ship->x = 200;
+                    drawShip(renderer,ship);
                     Node *temp = *left_ships;
                     *left_ships = (*left_ships)->next;
                     free(temp);
@@ -132,7 +148,9 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
                 while (*right_ships && time(NULL) - config->time_to_switch) {
                     Ship *ship = &(*right_ships)->ship;
                     ship->thread.start_routine((void *)ship);
-                    
+                    drawNoShip(renderer, ship);
+                    ship->x = 500;
+                    drawShip(renderer,ship);
                     Node *temp = *right_ships;
                     *right_ships = (*right_ships)->next;
                     free(temp);
@@ -153,7 +171,9 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             if (random_side == 1 && *left_ships) {  // Enviar desde el lado izquierdo
                 Ship *ship = &(*left_ships)->ship;
                 ship->thread.start_routine((void *)ship);
-                
+                drawNoShip(renderer, ship);
+                ship->x = 200;
+                drawShip(renderer, ship);
                 Node *temp = *left_ships;
                 *left_ships = (*left_ships)->next;
                 free(temp);
@@ -162,7 +182,9 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             else if (*right_ships) {  // Enviar desde el lado derecho
                 Ship *ship = &(*right_ships)->ship;
                 ship->thread.start_routine((void *)ship);
-                
+                drawNoShip(renderer, ship);
+                ship->x = 500;
+                drawShip(renderer, ship);
                 Node *temp = *right_ships;
                 *right_ships = (*right_ships)->next;
                 free(temp);

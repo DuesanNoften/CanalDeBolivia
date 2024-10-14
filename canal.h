@@ -19,7 +19,7 @@ typedef struct {
 } CanalConfig;
 
 // Prototipo de la función para iniciar el canal
-void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships);
+void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships, SDL_Renderer* renderer);
 
 void setCanalConfigFromFile(CanalConfig *config, const char *filename);
 
