@@ -80,6 +80,8 @@ void insert_ship(Node **head, Ship ship, SDL_Renderer *renderer) {
     }
 }
 
+
+
 void schedule_ships(CanalConfig *canal_config, Node **left_ships, Node **right_ships) {
     int scheduling_type = canal_config->scheduling_type;
 
