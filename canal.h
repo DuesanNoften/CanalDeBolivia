@@ -4,8 +4,7 @@
 #include "Scheduling/scheduling.h"
 #include "CEthreads/CEthread.h"
 #include <ctype.h>
-
-
+#include <SDL2/SDL.h> 
 
 // Estructura que representa la configuración del canal
 typedef struct {
@@ -23,6 +22,13 @@ typedef struct {
 void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships);
 
 void setCanalConfigFromFile(CanalConfig *config, const char *filename);
+
+void drawShip(SDL_Renderer* renderer, Ship* ship);
+
+//Funciones SDL
+void init_SDL();
+void cleanup_SDL();
+void render_ships(SDL_Renderer *renderer, Node *left_ships, Node *right_ships);
 
 // Declaración de la función para reconocer si el string es un entero positivo
 int is_positive_integer(const char *str);

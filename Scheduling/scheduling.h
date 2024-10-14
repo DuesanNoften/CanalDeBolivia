@@ -6,9 +6,11 @@
 // Estructura que representa un barco
 typedef struct {
     int id;
+    int x, y;
     int priority;
     int time; 
     int type; 
+    int side;
     int remaining_time;  
     int real_time_max;  
     CEthreads_t thread;  

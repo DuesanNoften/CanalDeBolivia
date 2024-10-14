@@ -4,6 +4,7 @@
 #include "Scheduling/scheduling.h"
 #include "CEthreads/CEthread.h"
 #include "canal.h"
+#include <SDL2/SDL.h> 
 
 // Prototipo de la función de procesamiento del barco
 int process_ship_thread(void *arg) {
@@ -18,15 +19,26 @@ int process_ship_thread(void *arg) {
     return 0;
 }
 
+//SDL functions
+int initSDL(SDL_Window **window, SDL_Renderer **renderer);
+void closeSDL(SDL_Window *window, SDL_Renderer *renderer);
 
 // Función para crear un barco y asignarle valores
-Ship create_ship(int id, int priority, int time) {
+Ship create_ship(int id, int priority, int time, int side) {
     Ship ship;
     ship.id = id;
     ship.priority = priority;
     ship.time = time;
+    ship.side = side;
     ship.remaining_time = time; // Inicialmente, el tiempo restante es igual al tiempo de procesamiento
     ship.real_time_max = time + 5; // Asumir un tiempo máximo para pasar por el canal
+    if(side == 0){
+        ship.x = 30;
+    }else{
+        ship.x = 720;
+    }
+    //ship.y = 275 + rand()%30;
+    ship.y = id * 30;
 
     // Inicializar el mutex del barco
     if (CEmutex_init(&ship.mutex) != 0) {
@@ -50,7 +62,8 @@ Ship create_ship(int id, int priority, int time) {
     return ship;
 }
 
-void insert_ship(Node **head, Ship ship) {
+void insert_ship(Node **head, Ship ship, SDL_Renderer *renderer) {
+    drawShip(renderer, &ship);
     Node *new_node = (Node*)malloc(sizeof(Node));
     new_node->ship = ship;
     new_node->next = NULL;
@@ -112,6 +125,14 @@ int main() {
     CanalConfig canal_config;
     setCanalConfigFromFile(&canal_config, "../CanalConfig.txt");
 
+    SDL_Window *window = NULL;
+    SDL_Renderer *renderer = NULL;
+
+    // Initialize SDL
+    if (initSDL(&window, &renderer) != 0) {
+        printf("Error initializing SDL\n");
+        return -1;
+    }
 
     // Crear listas de barcos
     Node *left_ships = NULL;
@@ -121,15 +142,15 @@ int main() {
     int ships_created = 0;
     for (int i = 0; i < canal_config.lnum_ships; i++) {
         //Ship ship = create_ship(i + 1, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1); 
-        insert_ship(&left_ships, ship);
+        Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1, 0); 
+        insert_ship(&left_ships, ship, renderer);
         ships_created++;
     }
 
     for (int i = 0; i < canal_config.rnum_ships; i++) {
         //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + ships_created+1, rand() % 5 + 1, rand() % 5 + 1); 
-        insert_ship(&right_ships, ship);
+        Ship ship = create_ship(i + ships_created+1, rand() % 5 + 1, rand() % 5 + 1, 1); 
+        insert_ship(&right_ships, ship, renderer);
     }
 
     //Calendarizacion
@@ -183,5 +204,39 @@ int main() {
         free(current);
     }
 
+    closeSDL(window, renderer);
     return 0;
+}
+
+int initSDL(SDL_Window **window, SDL_Renderer **renderer) {
+    // Initialize SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("Error inicializing SDL: %s\n", SDL_GetError());
+        return -1;
+    }
+
+    // Create window
+    *window = SDL_CreateWindow("Scheduling Ships Canal de Bolivia", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+    if (*window == NULL) {
+        printf("Error creating window: %s\n", SDL_GetError());
+        SDL_Quit();
+        return -1;
+    }
+
+    // Create Render
+    *renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED);
+    if (*renderer == NULL) {
+        printf("Error creating renderer: %s\n", SDL_GetError());
+        SDL_DestroyWindow(*window);
+        SDL_Quit();
+        return -1;
+    }
+
+    return 0;
+}
+
+void closeSDL(SDL_Window *window, SDL_Renderer *renderer) {
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }

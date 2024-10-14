@@ -5,9 +5,60 @@
 #include <ctype.h>
 #include "canal.h"
 #include <time.h>
+#include <SDL2/SDL.h> 
 
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+
+// Limpiar SDL
+void cleanup_SDL() {
+    SDL_Quit();
+}
+/*
+// Renderizar barcos en el canal
+void render_ships(SDL_Renderer *renderer, Node *left_ships, Node *right_ships) {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);  // Fondo negro
+    SDL_RenderClear(renderer);  // Limpiar la pantalla
+
+    // Dibujar barcos del lado izquierdo
+    Node *temp = left_ships;
+    int y_pos = 275;
+    while (temp != NULL) {
+        SDL_Rect ship_rect = {50, y_pos, 50, 30};  // Barco de ejemplo
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);  // Verde para barcos de la izquierda
+        SDL_RenderFillRect(renderer, &ship_rect);
+        temp = temp->next;
+        y_pos += 35;  // Ajustar posición
+    }
+
+    // Dibujar barcos del lado derecho
+    temp = right_ships;
+    y_pos = 275;
+    while (temp != NULL) {
+        SDL_Rect ship_rect = {WINDOW_WIDTH - 100, y_pos, 50, 30};  // Barco de ejemplo
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);  // Azul para barcos de la derecha
+        SDL_RenderFillRect(renderer, &ship_rect);
+        temp = temp->next;
+        y_pos += 35;
+    }
+
+    SDL_RenderPresent(renderer);  // Actualizar la pantalla
+}*/
+
+void drawShip(SDL_Renderer* renderer, Ship* ship);
+
+void drawShip(SDL_Renderer* renderer, Ship* ship) {
+    
+    // Change the color between ship types-poner un if cuando tengamos el type
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);  // Red for the normal ones
+    //Draw the ship rectangle and update window
+    SDL_Rect shipRect = { ship->x, ship->y, 50, 20 };
+    SDL_RenderFillRect(renderer, &shipRect);
+    SDL_RenderPresent(renderer);
+}
 
 void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
+    //Logica paso de barcos
     int method = config->flow_control_method;
     if (method == 0) {
         int w = config->W;  // Número de barcos a pasar en cada dirección
@@ -107,7 +158,6 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
 
     printf("Todos los barcos han pasado por el canal.\n");
 }
-
 
 // Funcion para reconocer si el string es un entero positivo
 int is_positive_integer(const char *str) {
