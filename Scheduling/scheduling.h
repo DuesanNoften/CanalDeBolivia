@@ -9,7 +9,9 @@ typedef struct {
     int priority;
     int time;  
     int remaining_time;  
-    int real_time_max;  
+    int real_time_max;
+    int type; // 0 = normal, 1 = pesquero, 2 = patrulla
+    int direction; // 0 = izquierda-derecha, 1 = derecha-izquierda
     CEthreads_t thread;  
     CEmutex_t mutex;  
 } Ship;

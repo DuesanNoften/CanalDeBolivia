@@ -20,11 +20,13 @@ int process_ship_thread(void *arg) {
 
 
 // Función para crear un barco y asignarle valores
-Ship create_ship(int id, int priority, int time) {
+Ship create_ship(int id, int priority, int time, int type, int direction) {
     Ship ship;
     ship.id = id;
     ship.priority = priority;
     ship.time = time;
+    ship.type = type;
+    ship.direction = direction;
     ship.remaining_time = time; // Inicialmente, el tiempo restante es igual al tiempo de procesamiento
     ship.real_time_max = time + 5; // Asumir un tiempo máximo para pasar por el canal
 
@@ -121,14 +123,14 @@ int main() {
     int ships_created = 0;
     for (int i = 0; i < canal_config.lnum_ships; i++) {
         //Ship ship = create_ship(i + 1, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1); 
+        Ship ship = create_ship(i + 1, rand() % 5 + 1, rand() % 5 + 1, 1, 0);
         insert_ship(&left_ships, ship);
         ships_created++;
     }
 
     for (int i = 0; i < canal_config.rnum_ships; i++) {
         //Ship ship = create_ship(i + 6, 1, rand() % 5 + 1); // ID, Prioridad, Tiempo (1-5)
-        Ship ship = create_ship(i + ships_created+1, rand() % 5 + 1, rand() % 5 + 1); 
+        Ship ship = create_ship(i + ships_created+1, rand() % 5 + 1, rand() % 5 + 1, 0, 1);
         insert_ship(&right_ships, ship);
     }
 

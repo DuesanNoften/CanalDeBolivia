@@ -5,13 +5,52 @@
 #include <ctype.h>
 #include "canal.h"
 #include <time.h>
+#include <wifi.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <signal.h>
+#include "wifi.h"
+
+// Función para enviar datos del barco al servidor
+int send_ship_data(const int *ship_data, size_t size) {
+    // Inicializar el socket y conectarse al servidor
+    if (initialize_socket() == -1) {
+        return 0;  // Error al conectar
+    }
+
+    // Construir el mensaje a partir del array de datos
+    char message[100];
+    strcpy(message, "[");
+    for (size_t i = 0; i < size; i++) {
+        char buffer[10];
+        sprintf(buffer, "%d", ship_data[i]);
+        strcat(message, buffer);
+        if (i < size - 1) strcat(message, ", ");
+    }
+    strcat(message, "]");
+
+    // Enviar el mensaje al servidor
+    if (send_message(message) == -1) {
+        close(sock);  // Cerrar el socket en caso de error
+        return 0;
+    }
+
+    // Cerrar el socket después del envío
+    close(sock);
+    printf("Socket cerrado tras enviar: %s\n", message);
+    return 1;
+}
 
 
 void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
     int method = config->flow_control_method;
     if (method == 0) {
         int w = config->W;  // Número de barcos a pasar en cada dirección
-        int left_count, right_count;
+        int left_count, right_count, has_passed;
 
         printf("Comenzando el paso de barcos por el canal:\n");
 
@@ -21,6 +60,16 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             while (*left_ships && left_count < w) {
                 Ship *ship = &(*left_ships)->ship;
                 ship->thread.start_routine((void *)ship);
+
+                // Crear los datos del barco para enviar
+                if((*left_ships)->next == NULL) {
+                    int ship_data[6] = {ship->time, ship->type, ship->direction, 0, 0, 0};
+                    send_ship_data(ship_data, 6);  // Enviar los datos
+                }
+                else {
+                    int ship_data[6] = {ship->time, ship->type, ship->direction, 0, 1, 0};
+                    send_ship_data(ship_data, 6);  // Enviar los datos
+                }
 
                 Node *temp = *left_ships;
                 *left_ships = (*left_ships)->next;
@@ -34,6 +83,16 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
                 Ship *ship = &(*right_ships)->ship;
                 ship->thread.start_routine((void *)ship);
 
+                // Crear los datos del barco para enviar
+                if((*right_ships)->next == NULL) {
+                    int ship_data[6] = {ship->time, ship->type, ship->direction, 1, 0, 0};
+                    send_ship_data(ship_data, 6);  // Enviar los datos
+                }
+                else {
+                    int ship_data[6] = {ship->time, ship->type, ship->direction, 1, 0, 1};
+                    send_ship_data(ship_data, 6);  // Enviar los datos
+                }
+
                 Node *temp = *right_ships;
                 *right_ships = (*right_ships)->next;
                 free(temp);
@@ -41,6 +100,7 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             }
         }
     }
+
     else if (method == 1) {  // Enviar barcos por 20 segundos de cada lado
         printf("Comenzando el paso alternado de barcos por tiempo:\n");
 
@@ -57,6 +117,17 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
                     Ship *ship = &(*left_ships)->ship;
                     ship->thread.start_routine((void *)ship);
 
+                    // Crear los datos del barco para enviar
+                    // Crear los datos del barco para enviar
+                    if((*left_ships)->next == NULL) {
+                        int ship_data[6] = {ship->time, ship->type, ship->direction, 0, 0, 0};
+                        send_ship_data(ship_data, 6);  // Enviar los datos
+                    }
+                    else {
+                        int ship_data[6] = {ship->time, ship->type, ship->direction, 0, 1, 0};
+                        send_ship_data(ship_data, 6);  // Enviar los datos
+                    }
+
                     Node *temp = *left_ships;
                     *left_ships = (*left_ships)->next;
                     free(temp);
@@ -66,6 +137,16 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
                 while (*right_ships && time(NULL) - config->time_to_switch) {
                     Ship *ship = &(*right_ships)->ship;
                     ship->thread.start_routine((void *)ship);
+
+                    // Crear los datos del barco para enviar
+                    if((*right_ships)->next == NULL) {
+                        int ship_data[6] = {ship->time, ship->type, ship->direction, 1, 0, 0};
+                        send_ship_data(ship_data, 6);  // Enviar los datos
+                    }
+                    else {
+                        int ship_data[6] = {ship->time, ship->type, ship->direction, 1, 0, 1};
+                        send_ship_data(ship_data, 6);  // Enviar los datos
+                    }
 
                     Node *temp = *right_ships;
                     *right_ships = (*right_ships)->next;
@@ -88,6 +169,16 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
                 Ship *ship = &(*left_ships)->ship;
                 ship->thread.start_routine((void *)ship);
 
+                // Crear los datos del barco para enviar
+                if((*left_ships)->next == NULL) {
+                    int ship_data[6] = {ship->time, ship->type, ship->direction, 0, 0, 0};
+                    send_ship_data(ship_data, 6);  // Enviar los datos
+                }
+                else {
+                    int ship_data[6] = {ship->time, ship->type, ship->direction, 0, 1, 0};
+                    send_ship_data(ship_data, 6);  // Enviar los datos
+                }
+
                 Node *temp = *left_ships;
                 *left_ships = (*left_ships)->next;
                 free(temp);
@@ -96,6 +187,16 @@ void start_canal(CanalConfig *config, Node **left_ships, Node **right_ships) {
             else if (*right_ships) {  // Enviar desde el lado derecho
                 Ship *ship = &(*right_ships)->ship;
                 ship->thread.start_routine((void *)ship);
+
+                // Crear los datos del barco para enviar
+                if((*right_ships)->next == NULL) {
+                    int ship_data[6] = {ship->time, ship->type, ship->direction, 1, 0, 0};
+                    send_ship_data(ship_data, 6);  // Enviar los datos
+                }
+                else {
+                    int ship_data[6] = {ship->time, ship->type, ship->direction, 1, 0, 1};
+                    send_ship_data(ship_data, 6);  // Enviar los datos
+                }
 
                 Node *temp = *right_ships;
                 *right_ships = (*right_ships)->next;

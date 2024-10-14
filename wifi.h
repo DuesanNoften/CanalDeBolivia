@@ -19,7 +19,7 @@ extern int sock;
 void handle_exit(int sig);
 int initialize_socket();
 int send_message(const char *message);
-void *wifi_thread_function(void *arg);
-int create_wifi_thread(CEthreads_t *thread);
+
+
 
 #endif // WIFI_H

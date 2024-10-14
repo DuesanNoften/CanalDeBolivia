@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.10"
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "SchedulingShips::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-SchedulingShips-3c37877b26a05e1d4753.json",
+					"jsonFile" : "target-SchedulingShips-Debug-fc48715977c35ffb2bc6.json",
 					"name" : "SchedulingShips",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/mnt/d/ProyectoSO/CEThreads/CanalDeBolivia",
-		"source" : "/mnt/d/ProyectoSO/CEThreads/CanalDeBolivia"
+		"build" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia",
+		"source" : "/home/duesan/Documents/Proyecto_Canal_de_Bolivia/CanalDeBolivia"
 	},
 	"version" : 
 	{

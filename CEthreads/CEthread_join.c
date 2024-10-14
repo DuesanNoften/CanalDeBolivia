@@ -1,6 +1,3 @@
-//
-// Created by duesan on 30/09/24.
-//
 #include <unistd.h>
 #include "CEthread.h"
 void CEthread_join(CEthreads_t *ce_thread, int *retval){
