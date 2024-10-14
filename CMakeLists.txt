@@ -17,7 +17,8 @@ add_executable(SchedulingShips
     CEthreads/CEthread_join.c
     Scheduling/scheduling.c
     canal.c
-    main.c
+    wifi.c
+    test.c
 )
 
 # Include directories (for headers)

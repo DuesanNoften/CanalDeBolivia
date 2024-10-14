@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
+			"value" : "/mnt/d/ProyectoSO/CEThreads/CanalDeBolivia"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -419,7 +419,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia/CMakeFiles/pkgRedirects"
+			"value" : "/mnt/d/ProyectoSO/CEThreads/CanalDeBolivia/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -479,7 +479,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
+			"value" : "/mnt/d/ProyectoSO/CEThreads/CanalDeBolivia"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1031,7 +1031,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
+			"value" : "/mnt/d/ProyectoSO/CEThreads/CanalDeBolivia"
 		},
 		{
 			"name" : "SchedulingShips_IS_TOP_LEVEL",
@@ -1055,7 +1055,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/kevin/Escritorio/Proyectos/CanalDeBolivia"
+			"value" : "/mnt/d/ProyectoSO/CEThreads/CanalDeBolivia"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
